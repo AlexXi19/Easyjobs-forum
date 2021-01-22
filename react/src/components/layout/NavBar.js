@@ -72,7 +72,7 @@ export default function Header() {
   //const { sections, title } = props;
   const sections = [
     { title: 'Home', url: '/' },
-    { title: 'Login', url: '/Login' },
+  
     { title: 'Posts', url: '/Posts' },
     { title: 'Business', url: '#' },
     { title: 'Politics', url: '#' },
@@ -115,7 +115,7 @@ export default function Header() {
 
 
 
-        <Button variant="outlined" size="small">
+        <Button variant="outlined" size="small" href="/Login">
           Log In
         </Button>
       </Toolbar>

@@ -1,6 +1,8 @@
 import React from "react";
 import "./styles.css";
 import routes from "./routes";
+import 'semantic-ui-css/semantic.min.css'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,12 +21,14 @@ return(
   <div className="wrapper">
      <h1>Easyjobs</h1>
      <Router>
-         <Link to="/">Home</Link>
+         {/* <Link to="/">Home</Link>
          <Link to="/Posts">Posts</Link>
-         <Link to="/Login"> Login</Link>
+         <Link to="/Login"> Login</Link> */}
          <Route exact path="/" component={Home} />
          <Route exact path="/Posts" component={SeePost} />
          <Route path="/Login" component={Login} />
+
+         
      </Router>
    </div>
     )
