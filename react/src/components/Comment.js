@@ -2,32 +2,53 @@ import React ,{useState} from "react";
 import { Button, Comment, Form, Header } from 'semantic-ui-react'
 
 function Commented (props) {
-  const { name, message, time,reply} = props.comment;
+  const { name, message, time} = props.comment;
   const [clicked,setClicked]=useState(false);
-  // const [reply,setReply]=useState(props.comment.reply);
+  const [reply,setReply]=useState([]);
   const [inputText, setInputText] = useState("");
+  const [replyName,setReplyName]=useState("");
+  const [id,setID]=useState(0);
+  //  var lastID=Math.max.apply(id.map((item)=>{
+  //    return id;
+  //  }));
+
+
  
+   function uniqueID() {
+    return Math.floor(Math.random() * Date.now())
+    }
 
   function handleChange(event){
  const newValue=event.target.value;
  setInputText(newValue);
+ setReplyName("Alex Xi");
+ setID(uniqueID());
+
   }
+
+  
   function handleClicked(){
    setClicked(!clicked);
    }
+  
    function handleSubmit(){
     
-    //  setReply((prevItems)=>{
-    //    return[...prevItems,inputText];
-    //  });
+     setReply((prevItems)=>{
+       return[...prevItems,[{
+         id:id,
+        name: replyName,
+        message:inputText
+       }
+       ]];
+     });
      setInputText("");
+     handleClicked();
    }
-const nestedComments= (reply||[]).map((comment)=>{
-  console.log(comment);
- return <Commented key={comment.id} comment={comment} name={name} type="children"/>    
+const nestedComments= (reply).map((comment)=>{
+
+ return <Commented key={comment[0].id} comment={comment[0]} name={comment[0].name} type="children"/>    
 });
 
-console.log(nestedComments);
  return( 
   //   <Comment.Group>
   // <Header as='h3' dividing>
@@ -42,20 +63,24 @@ console.log(nestedComments);
         <div>{time}</div>
       </Comment.Metadata>
       <Comment.Text>{message}</Comment.Text>
-      {nestedComments}
+      
       <Comment.Actions>
         <Comment.Action onClick={handleClicked} >{clicked ? "Close" : "Reply"}</Comment.Action>
+       
       </Comment.Actions>
-    </Comment.Content>
-    { clicked? (<Form reply onSubmit={handleSubmit} >
+  
+      { clicked? (<Form reply onSubmit={handleSubmit} >
      <Form.TextArea onChange={handleChange} value={inputText}/>
      <Button content='Add Reply' labelPosition='left' icon='edit' primary />
    </Form>):null}
+   {nestedComments}
+    </Comment.Content>
+ 
 {/*    
    {reply.map((content,index)=>(
     <Comment.Text key={index}>{content}</Comment.Text>
    ))} */}
- 
+
 
 
   </Comment>

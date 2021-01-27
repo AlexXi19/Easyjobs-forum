@@ -26,6 +26,7 @@ class Comments extends Component{
             {id: 5, name: "rosco", message: "What is the meaning of all of this 'React' mumbo-jumbo?",reply:[]}],
            };
         this.addComment=this.addComment.bind(this);
+        this.addReply=this.addReply.bind(this);
     }
    
     addComment(comment) {
@@ -33,7 +34,9 @@ class Comments extends Component{
         comments: [comment, ...this.state.comments]
       });
     }
-
+  addReply(reply){ 
+    console.log(reply);
+  }
 
 
     render(){
@@ -53,6 +56,7 @@ class Comments extends Component{
           </div>
           <div className="col-8  pt-3 bg-white">
           <CommentList
+          addReply={this.addReply}
    comments={this.state.comments}
 />
           </div>

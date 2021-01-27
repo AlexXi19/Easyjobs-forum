@@ -1,7 +1,9 @@
 import { AddComment, FormatListNumbered } from "@material-ui/icons";
 import React, { Component,useState} from "react";
-import {Form,Image,TextArea} from "semantic-ui-react";
+import {Form,Image,TextArea,Button,Comment} from "semantic-ui-react";
 import Avatar from '@material-ui/core/Avatar';
+
+
 
 var btnOn=false;
 
@@ -12,8 +14,10 @@ export default class CommentForm extends Component {
       error: "",
 
       comment: {
+        id:0,
         name: "",
-        message: ""
+        message: "",
+        reply:[]
       }
     };
 
@@ -27,15 +31,19 @@ export default class CommentForm extends Component {
    */
   
   handleFieldChange = event => {
+    function uniqueID() {
+      return Math.floor(Math.random() * Date.now())
+      }
     const { value, name } = event.target;
     btnOn=true;
     this.setState({
       ...this.state,
       comment: {
         ...this.state.comment,
+        id:uniqueID(),
         [name]: value,
         name:"Kevin Wu",
-        reply:""
+        reply:[]
       }
     });
   };
@@ -102,11 +110,13 @@ export default class CommentForm extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div>
+      
           <Form method="post" onSubmit={this.onSubmit}>
-          <Avatar aria-label="recipe" className="avatar">
+          <Avatar src="https://picsum.photos/700" aria-label="recipe" className="avatar">
             R
           </Avatar>
+          <Comment.Author className="commentName" as='a'>Kevin Wu</Comment.Author>
           {/* <div className="form-group">
             <input
               onChange={this.handleFieldChange}
@@ -122,13 +132,13 @@ export default class CommentForm extends Component {
           {this.renderError()}
 
          {btnOn?( <div className="commentBTN">
-            <Form.Button primary >
+            <Button primary >
               Comment
-            </Form.Button> 
+            </Button> 
           </div>):null}
           </Form>
      
-      </React.Fragment>
+      </div>
     );
   }
 }
