@@ -2,6 +2,8 @@ import React from "react";
 import "./styles.css";
 import routes from "./routes";
 import 'semantic-ui-css/semantic.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import {
   BrowserRouter as Router,
