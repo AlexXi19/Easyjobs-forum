@@ -6,6 +6,14 @@ Form{
   text-align:left;
   margin:3%;
 }
+.wrapper{
+    min-height: 100%;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: #00565c;
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png");
+}
 .comment{
   text-align:left;
   padding-left:3%;

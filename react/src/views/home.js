@@ -7,15 +7,13 @@ import { red } from "@material-ui/core/colors";
 function Home(){
   const useStyles = makeStyles((theme) => ({
     root: {
-      backgroundColor: "#00565c",
-      backgroundImage: 'url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png")'
+     
     },
   }));
   const classes=useStyles();
   return(
     
     <div className={classes.root}>
-    <Nav  />
    <Grid>
    <Grid.Column width={3}>
   
