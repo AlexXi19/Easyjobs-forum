@@ -42,7 +42,7 @@ export default class CommentForm extends Component {
         ...this.state.comment,
         id:uniqueID(),
         [name]: value,
-        name:"Kevin Wu",
+        name:"唔铠闻",
         reply:[]
       }
     });
@@ -116,7 +116,7 @@ export default class CommentForm extends Component {
           <Avatar src="https://picsum.photos/700" aria-label="recipe" className="avatar">
             R
           </Avatar>
-          <Comment.Author className="commentName" as='a'>Kevin Wu</Comment.Author>
+          <Comment.Author className="commentName" as='a'>作者</Comment.Author>
           {/* <div className="form-group">
             <input
               onChange={this.handleFieldChange}
@@ -128,12 +128,12 @@ export default class CommentForm extends Component {
             />
           </div> */}
          <Form.TextArea  onChange={this.handleFieldChange}
-              value={this.state.comment.message}  name="message" placeholder="Add a public comment"/>
+              value={this.state.comment.message}  name="message" placeholder="添加一个评论"/>
           {this.renderError()}
 
          {btnOn?( <div className="commentBTN">
             <Button primary >
-              Comment
+              评论
             </Button> 
           </div>):null}
           </Form>

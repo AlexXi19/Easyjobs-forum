@@ -8,17 +8,18 @@ export default function(){
         <Navbar className="py-0 navbar" bg="dark" expand="lg" variant="light">
     
    
-  <Navbar.Brand className="navbrand" href="#home">Easyjobs</Navbar.Brand>
+  <Navbar.Brand className="navbrand" href="#home">易职网</Navbar.Brand>
 
  
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="nav mr-auto">
 
-      <Nav.Link href="/">Home</Nav.Link>
+      <Nav.Link href="/">主页</Nav.Link>
    
 
-      <Nav.Link className="Navlink" href="/login">Login</Nav.Link>
+      <Nav.Link className="Navlink" href="/login">登陆</Nav.Link>
+      <Nav.Link className="Navlink" href="/addPost">提问/分享</Nav.Link>
     
       {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
