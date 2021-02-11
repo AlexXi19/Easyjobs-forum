@@ -3,6 +3,8 @@
 // date
 // userID
 // replyToID
+//    Denoting which post that this replied to,
+//    if it is the first comment, this is null
 // Likes
 //likesNum
 
@@ -27,7 +29,7 @@ const CommentSchema = mongoose.Schema({
     replyToID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
-    }
+    },
     likes: [],
     likesNum: {
         type: Number
