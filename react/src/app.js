@@ -17,6 +17,7 @@ import Home from "./views/home";
 import Login from "./views/loggin";
 // import Profile from "./views/profiles";
 import SeePost from "./views/seePost";
+import addPost from "./views/addPost";
 
 export default function App(){
 return(
@@ -30,7 +31,7 @@ return(
          <Route exact path="/" component={Home} />
          <Route exact path="/Posts" component={SeePost} />
          <Route path="/Login" component={Login} />
-
+         <Route path="/addPost" component={addPost}/>
          
      </Router>
      
