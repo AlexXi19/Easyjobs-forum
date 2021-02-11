@@ -65,13 +65,13 @@ const nestedComments= (reply).map((comment)=>{
       <Comment.Text>{message}</Comment.Text>
       
       <Comment.Actions>
-        <Comment.Action onClick={handleClicked} >{clicked ? "Close" : "Reply"}</Comment.Action>
+        <Comment.Action onClick={handleClicked} >{clicked ? "收起" : "回复"}</Comment.Action>
        
       </Comment.Actions>
   
       { clicked? (<Form reply onSubmit={handleSubmit} >
      <Form.TextArea onChange={handleChange} value={inputText}/>
-     <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+     <Button content='回复' labelPosition='left' icon='edit' primary />
    </Form>):null}
    {nestedComments}
     </Comment.Content>

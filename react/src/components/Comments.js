@@ -17,13 +17,13 @@ class Comments extends Component{
     constructor (props){
         super(props);
         this.state={
-            comments:[ {id: 1, name: "landiggity", message: "This is my first comment on this forum so don't be a dick",reply:[{
-              id:2,name:"Jason", message:"This is a test", reply:[{
-                id:3, name:"Alex",message:"This is an important one",reply:[]
+            comments:[ {id: 1, name: "你们好", message: "新年好啊新年好祝贺大家新年好",reply:[{
+              id:2,name:"林学彬", message:"我们唱歌我们跳舞", reply:[{
+                id:3, name:"稀罕文",message:"祝贺大家新年好啊新年好",reply:[]
               }]
             }]},
-            {id: 4, name: "scarlett-jo", message: "That's a mighty fine comment you've got there my good looking fellow...",reply:[]},
-            {id: 5, name: "rosco", message: "What is the meaning of all of this 'React' mumbo-jumbo?",reply:[]}],
+            {id: 4, name: "陈晓你", message: "新年好啊新年好祝贺大家新年好.",reply:[]},
+            {id: 5, name: "陈晓茹", message: "而我已经分不清，你是友情，还是错过的爱情",reply:[]}],
            };
         this.addComment=this.addComment.bind(this);
         this.addReply=this.addReply.bind(this);
@@ -45,7 +45,7 @@ class Comments extends Component{
         <header className="App-header">
          
           <h1 className="App-title">
-             Comments
+             评论
             <span className="px-2" role="img" aria-label="Chat">
               
             </span>
