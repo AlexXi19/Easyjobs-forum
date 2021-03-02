@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React from "react";
 import Box from "@material-ui/core/Box"
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -9,13 +9,7 @@ import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
 
-
 function Login(){
-  var UserisRegistered = false;
-  const[isRegistered,setRegisterState]=useState(true);
-  function handleClick(){
-    setRegisterState(!isRegistered);
-  }
     const useStyles = makeStyles((theme) => ({
        root:{
         justifyContent: 'center',
@@ -38,9 +32,6 @@ function Login(){
        loginSquare:{
            padding:"10%",
            backgroundColor:"white",
-       },
-       link:{
-       marginTop:"5%"
        }
       }));
       const classes=useStyles();
@@ -50,9 +41,9 @@ function Login(){
         <Container className={classes.loginSquare} maxWidth="xs">
        
         <FormGroup>   
-            <h1 className={classes.title}>{isRegistered?"登陆易职网":"注册易职网"}</h1>
+            <h1 className={classes.title}>登陆易职网</h1>
                 <Grid item xs={12}>
-            <TextField fullWidth type="text"  name="username" label="邮箱" required autofocus></TextField>
+            <TextField fullWidth type="text"  name="username" label="用户名" required autofocus></TextField>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
@@ -68,12 +59,9 @@ function Login(){
                       className={classes.Button}
                         color="primary"
                         variant="outlined"
-                        fullWidth type="submit">{isRegistered?"登陆":"注册新账号"}</Button>
+                        fullWidth type="submit">登陆</Button>
                   </Grid>
-                  <Grid item xs={12} >
-                  <div className={classes.link}>
-    <Link  onClick={handleClick}>{isRegistered?"注册新账号":"已有账号"} </Link></div>
-    </Grid>
+    <Link href="#" > </Link>
         </FormGroup>
        
         </Container>
