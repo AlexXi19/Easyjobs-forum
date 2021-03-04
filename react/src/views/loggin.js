@@ -9,6 +9,7 @@ import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from "axios";
+import {Form} from 'semantic-ui-react'
 
 
 function Login(){
@@ -24,9 +25,9 @@ function Login(){
   // function handleChange(e){
   //   setUserName(e.target.value);
   // }
-  function signUp(e){
+  async function signUp(e){
+    console.log("react sign up called");
     console.log(document.getElementById('username').value);
-
     if (isRegistered){
       console.log("Registered");
     }
@@ -37,17 +38,10 @@ function Login(){
             userName:userName,
             password:password,
         }
-    
-    Axios({
-      method: "POST",
-      url: "http://localhost:5000/register",
-      data,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => {
-      console.log(res.data.message);
-    });
+    console.log(data);
+    console.log(userName);
+    Axios.post("http://localhost:5000/register", data)
+    .then((response) => {   console.log(response); }, (error) => {   console.log(error); });
   }
   }
     const useStyles = makeStyles((theme) => ({
@@ -78,12 +72,14 @@ function Login(){
        }
       }));
       const classes=useStyles();
-    
+
         return (<div className={classes.root}>
            <Card className={classes.card}>
         <Container className={classes.loginSquare} maxWidth="xs">
-       
-        <FormGroup onSubmit={(e)=>{signUp(e)}}>   
+
+        <Form onSubmit={(e)=>{signUp(e)}}>
+        <FormGroup>
+
             <h1 className={classes.title}>{isRegistered?"登陆易职网":"注册易职网"}</h1>
                 <Grid item xs={12}>
             <TextField fullWidth type="text"  id='username' name="username" label="邮箱" required autofocus></TextField>
@@ -99,7 +95,7 @@ function Login(){
                     />
                   </Grid>
                   <Grid item xs={12} >
-                      <Button 
+                      <Button
                       className={classes.Button}
                         color="primary"
                         variant="outlined"
@@ -110,11 +106,12 @@ function Login(){
     <Link  onClick={handleClick}>{isRegistered?"注册新账号":"已有账号"} </Link></div>
     </Grid>
         </FormGroup>
-       
+        </Form>
+
         </Container>
         </Card>
-       
-       
+
+
         </div>)
     }
     export default Login;

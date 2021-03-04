@@ -7,16 +7,16 @@ async function register(req, res) {
   const salt = await bcrypt.genSaltSync(10);
 
   console.log("register function called");
-  const password = await req.body.pw;
+  const password = await req.body.password;
 
   bcrypt.hash(password, salt, function(err, hash) {
 
       //Creating a new user
       const newUser = new User({
         password: hash,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email
+        firstName: "Nihao",
+        lastName: "Niuniu",
+        email: req.body.userName
       });
       if (err) {
         console.log(err);

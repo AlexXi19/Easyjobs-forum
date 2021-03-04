@@ -12,6 +12,9 @@ const AuthContoller = require('./controllers/AuthController');
 const PostController = require('./controllers/PostController');
 const app = express();
 const passport = require('passport');
+var cors = require('cors');
+app.use(cors());
+
 
 const proxy = require('http-proxy-middleware')
 
@@ -36,7 +39,7 @@ app.use(session({
 
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
+    res.setHeader('Content-Type', 'text/plain', "Access-Control-Allow-Origin: *", 'Access-Control-Allow-Methods: POST, GET, OPTIONS');
     res.end('app.js');
 });
 
@@ -80,9 +83,12 @@ app.use('/deletePost', PostController.deletePost);
 app.use('/addComment', PostController.addComment);
 
 
-app.post('/register',(req, res) => {
-    res.send({ message: "We did it!" });
-});
+// app.use('/register',(req, res) => {
+//     console.log("niubile");
+//     console.log(req.body);
+//     console.log(res.data);
+//     res.send({ message: "We did it!" });
+// });
 
 
 
