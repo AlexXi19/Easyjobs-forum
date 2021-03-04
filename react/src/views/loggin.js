@@ -8,13 +8,47 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
+import Axios from "axios";
 
 
 function Login(){
   var UserisRegistered = false;
   const[isRegistered,setRegisterState]=useState(true);
+  const[UserName,setUserName]=useState("");
+  const[password,setPassword]=useState("");
+
   function handleClick(){
     setRegisterState(!isRegistered);
+  }
+
+  // function handleChange(e){
+  //   setUserName(e.target.value);
+  // }
+  function signUp(e){
+    console.log(document.getElementById('username').value);
+
+    if (isRegistered){
+      console.log("Registered");
+    }
+    else{
+      let userName = document.getElementById('username')?.value;
+        let password = document.getElementById('password')?.value;
+        let data = {
+            userName:userName,
+            password:password,
+        }
+    
+    Axios({
+      method: "POST",
+      url: "http://localhost:5000/register",
+      data,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => {
+      console.log(res.data.message);
+    });
+  }
   }
     const useStyles = makeStyles((theme) => ({
        root:{
@@ -49,10 +83,10 @@ function Login(){
            <Card className={classes.card}>
         <Container className={classes.loginSquare} maxWidth="xs">
        
-        <FormGroup>   
+        <FormGroup onSubmit={(e)=>{signUp(e)}}>   
             <h1 className={classes.title}>{isRegistered?"登陆易职网":"注册易职网"}</h1>
                 <Grid item xs={12}>
-            <TextField fullWidth type="text"  name="username" label="邮箱" required autofocus></TextField>
+            <TextField fullWidth type="text"  id='username' name="username" label="邮箱" required autofocus></TextField>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
@@ -61,6 +95,7 @@ function Login(){
                       name="password"
                       size="small"
                       type="password"
+                      id='password'
                     />
                   </Grid>
                   <Grid item xs={12} >
