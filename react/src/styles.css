@@ -2,43 +2,47 @@
   font-family: sans-serif;
   text-align: center;
 }
-Form{
-  text-align:left;
-  margin:3%;
+Form {
+  text-align: left;
+  margin: 3%;
 }
-.wrapper{
-    min-height: 100%;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    background-color: #00565c;
-    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png");
+.wrapper {
+  min-height: 100%;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #00565c;
+  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png");
 }
-.comment{
-  text-align:left;
-  padding-left:3%;
-
+.comment {
+  text-align: left;
+  padding-left: 3%;
 }
-.avatar{
-  float:left;
+.avatar {
+  float: left;
   margin-bottom: 6px;
-  width:2px;
-  height:2px;
+  width: 2px;
+  height: 2px;
 }
 
-.commentName{
-  color:black;
-  margin-left:2%;
-  
+.commentName {
+  color: black;
+  margin-left: 2%;
 }
 /* NavBar */
-.navbut{
-padding:2%;
+.navbut {
+  padding: 2%;
 }
-.navbrand{
-padding:2%;
+.navbrand {
+  padding: 2%;
 }
-.navbar{
-  max-height:80px;
-  color:#fff;
+.navbar {
+  max-height: 80px;
+  color: #fff;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
