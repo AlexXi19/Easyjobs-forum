@@ -9,7 +9,7 @@ import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from "axios";
-import {Form} from 'semantic-ui-react'
+
 
 
 function Login(){
@@ -29,17 +29,26 @@ function Login(){
     console.log("react sign up called");
     console.log(document.getElementById('username').value);
     if (isRegistered){
-      console.log("Registered");
+      let userName = document.getElementById('username')?.value;
+      let password = document.getElementById('password')?.value;
+      let data = {
+        userName:userName,
+        password:password,
+    }
+    Axios.post("http://localhost:5000/login",data).then((response) => {   console.log(response); }, (error) => {   console.log(error); });;
     }
     else{
       let userName = document.getElementById('username')?.value;
         let password = document.getElementById('password')?.value;
+        let firstName= document.getElementById('firstname')?.value;
+        let lastName= document.getElementById('lastname')?.value;
         let data = {
             userName:userName,
             password:password,
+            firstName:firstName,
+            lastName:lastName
         }
-    console.log(data);
-    console.log(userName);
+  
     Axios.post("http://localhost:5000/register", data)
     .then((response) => {   console.log(response); }, (error) => {   console.log(error); });
   }
@@ -77,12 +86,21 @@ function Login(){
            <Card className={classes.card}>
         <Container className={classes.loginSquare} maxWidth="xs">
 
-        <Form onSubmit={(e)=>{signUp(e)}}>
+        <form onSubmit={(e)=>{signUp(e)}}>
         <FormGroup>
 
             <h1 className={classes.title}>{isRegistered?"登陆易职网":"注册易职网"}</h1>
-                <Grid item xs={12}>
-            <TextField fullWidth type="text"  id='username' name="username" label="邮箱" required autofocus></TextField>
+                
+              {!isRegistered?<div>
+              <Grid item xs={12}>
+               <TextField fullWidth type="text" id="firstname" placeholder="名" required autofocus> </TextField>
+               </Grid>
+               <Grid item xs={12}>
+               <TextField fullWidth type="text" id="lastname" placeholder="姓"  required autofocus> </TextField>
+               </Grid>
+               </div>:null}
+               <Grid item xs={12}>
+            <TextField fullWidth type="text"  id='username' placeholder="邮件" name="username" label="邮箱" required autofocus></TextField>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
@@ -106,7 +124,7 @@ function Login(){
     <Link  onClick={handleClick}>{isRegistered?"注册新账号":"已有账号"} </Link></div>
     </Grid>
         </FormGroup>
-        </Form>
+        </form>
 
         </Container>
         </Card>

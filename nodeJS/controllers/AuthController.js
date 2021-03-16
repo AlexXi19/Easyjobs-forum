@@ -40,7 +40,7 @@ function login(req, res) {
   console.log("login function called");
 
   // User inputted email and password
-  const formEmail = req.body.email;
+  const formEmail = req.body.userName;
   const formPw = req.body.password;
 
   // Check if user exists
