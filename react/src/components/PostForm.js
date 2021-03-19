@@ -3,6 +3,7 @@ import { Grid, Form, Button, Message, Icon } from "semantic-ui-react";
 import Card from "react-bootstrap/Card";
 import Avatar from "@material-ui/core/Avatar";
 import CardHeader from "@material-ui/core/CardHeader";
+import Axios from "axios";
 
 function PostForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -52,7 +53,23 @@ function PostForm() {
       return;
     }
 
+    let data = {
+      PostTitle: post.title,
+      PostContent: post.text,
+    };
+
+    console.log(data);
+
     setSubmitted(true);
+    Axios.post("http://localhost:5000/addPost", data).then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
     setFormError(false);
     setPost({ id: 0, name: "", title: "", text: "" });
   }
@@ -76,7 +93,7 @@ function PostForm() {
                 subheader={date.toLocaleDateString(undefined, options)}
               />
               {submitted && (
-                <Message success header="Post Created">
+                <Message success>
                   <Icon name="check" /> Post Created
                 </Message>
               )}

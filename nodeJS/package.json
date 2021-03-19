@@ -22,7 +22,7 @@
     "express-session": "^1.17.1",
     "html": "^1.0.0",
     "http-proxy-middleware": "^1.0.6",
-    "mongoose": "^5.11.11",
+    "mongoose": "^5.11.19",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
