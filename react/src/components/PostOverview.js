@@ -21,8 +21,25 @@ import CommentIcon from "@material-ui/icons/Comment";
 import Link from "@material-ui/core/Link";
 import PostEntry from "./PostEntry.js";
 import posts from "./PostDict";
+import Axios from "axios";
 
 export default function RecipeReviewCard() {
+  console.log("Getting All Posts");
+
+  Axios.get("http://localhost:5000/getAllPosts").then(
+    (response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    },
+    (error) => {
+      console.log("Could not get posts");
+      console.log(error);
+    }
+  );
+
   return (
     <div>
       {posts.map((post) => (
