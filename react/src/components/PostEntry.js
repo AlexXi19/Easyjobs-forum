@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -19,6 +19,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { cardTitle } from "../assets/jss/material-kit-react";
 import CommentIcon from "@material-ui/icons/Comment";
+import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,11 +56,26 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [user, setUser] = useState({});
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  // const preventDefault = (event) => event.preventDefault();
+
+  useEffect(() => {
+    console.log("Finding User for post.");
+
+    Axios.get("http://localhost:5000/getUserByPost/" + props.id).then(
+      (response) => {
+        setUser(response.data);
+        console.log(response.data);
+      },
+      (error) => {
+        console.log("Could not get User");
+        console.log(error);
+      }
+    );
+  }, []);
 
   return (
     <div>
@@ -73,8 +89,8 @@ export default function RecipeReviewCard(props) {
                 </Avatar>
               }
               titleTypographyProps={{ variant: "subtitle2" }}
-              title={props.name}
-              subheader="September 14, 2016"
+              title={user.firstName + " " + user.lastName}
+              subheader={props.date}
             />
             <CardContent className={classes.content}>
               <Typography gutterBottom variant="h5" component="h3">

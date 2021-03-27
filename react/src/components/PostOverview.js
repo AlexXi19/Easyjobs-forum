@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -20,36 +20,38 @@ import { cardTitle } from "../assets/jss/material-kit-react";
 import CommentIcon from "@material-ui/icons/Comment";
 import Link from "@material-ui/core/Link";
 import PostEntry from "./PostEntry.js";
-import posts from "./PostDict";
 import Axios from "axios";
 
 export default function RecipeReviewCard() {
   console.log("Getting All Posts");
 
-  Axios.get("http://localhost:5000/getAllPosts").then(
-    (response) => {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
-    },
-    (error) => {
-      console.log("Could not get posts");
-      console.log(error);
-    }
-  );
+  const [posts, setPosts] = useState([]);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+
+  useEffect(() => {
+    Axios.get("http://localhost:5000/getAllPosts").then(
+      (response) => {
+        setPosts(response.data);
+      },
+      (error) => {
+        console.log("Could not get posts");
+        console.log(error);
+      }
+    );
+  }, []);
 
   return (
     <div>
       {posts.map((post) => (
         <PostEntry
-          key={post.id}
-          id={post.id}
-          icon={post.icon}
-          content={post.text.substring(0, 250) + "......"}
+          key={post._id}
+          id={post._id}
+          //icon={post.icon}
+          icon="🤣"
+          content={post.content.substring(0, 250) + "......"}
           title={post.title}
-          name={post.name}
+          date={new Date(post.date).toLocaleDateString(undefined, options)}
+          //name={post.name}
         />
       ))}
     </div>

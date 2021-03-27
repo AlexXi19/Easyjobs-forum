@@ -1,5 +1,5 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -10,7 +10,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import posts from "./PostDict";
+import Axios from "axios";
+import UserContext from "./UserContext";
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +28,59 @@ const useStyles = makeStyles({
 export default function MediaCard() {
   const classes = useStyles();
   const { id } = useParams();
-  let post = posts.find((post) => post.id == id);
+  const [post, setPost] = useState({});
+  const [user, setUser] = useState({});
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const history = useHistory();
+  const ProfileContext = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("Finding Post");
+
+    Axios.get("http://localhost:5000/getPostById/" + id).then(
+      (response) => {
+        setPost(response.data);
+        console.log(response.data);
+      },
+      (error) => {
+        console.log("Could not get post");
+        console.log(error);
+      }
+    );
+
+    Axios.get("http://localhost:5000/getUserByPost/" + id).then(
+      (response) => {
+        setUser(response.data);
+        console.log(response.data);
+      },
+      (error) => {
+        console.log("Could not get User");
+        console.log(error);
+      }
+    );
+  }, []);
+
+  function deletePost(event) {
+    console.log("Deleting Post...");
+
+    let response = {
+      data: {
+        postID: id,
+      },
+    };
+
+    Axios.delete("http://localhost:5000/deletePost", response).then(
+      (response) => {
+        console.log("Post Deleted");
+        history.push("/");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  console.log(ProfileContext.user);
+  console.log(user.email);
 
   return (
     <Card className={classes.root}>
@@ -44,16 +97,16 @@ export default function MediaCard() {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              {post.icon}
+              {/* {post.icon} */}
             </Avatar>
           }
           titleTypographyProps={{ variant: "subtitle2" }}
-          title={post.name}
-          subheader="September 14, 2016"
+          title={user.firstName + " " + user.lastName}
+          subheader={new Date(post.date).toLocaleDateString(undefined, options)}
           className={classes.author}
         />
         <Typography variant="body1" color="textPrimary" component="p">
-          {post.text}
+          {post.content}
         </Typography>
       </CardContent>
 
@@ -64,6 +117,11 @@ export default function MediaCard() {
         <Button size="small" color="primary">
           Learn More
         </Button>
+        {ProfileContext.user !== user.email && (
+          <Button size="small" color="secondary" onClick={deletePost}>
+            Delete Post
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

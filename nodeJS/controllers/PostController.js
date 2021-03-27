@@ -115,21 +115,27 @@ function getAllPostsByUser(req, res) {
 function getPostByID(req, res) {
   // Returns post object
   console.log("getPostByID function called");
-  var postID = new mongo.ObjectID(null);
-  Post.find({ _id: ssn.postID }, function (err, docs) {
+  console.log("Finding Post with ID: " + req.params.id);
+  // var postID = new mongo.ObjectID(null);
+  Post.find({ _id: req.params.id }, function (err, docs) {
     var postArray = docs[0];
+    console.log("Found Post, sending Post details");
+    res.json(docs[0]);
   });
 }
 
 // getUserByPost
 function getUserByPost(req, res) {
   // Returns user object with postID as input
-  console.log("getPostByID function called");
-  var postID = new mongo.ObjectID(null);
-  Post.find({ _id: ssn.postID }, function (err, docs) {
+  console.log("getUserByPost function called");
+  // var postID = new mongo.ObjectID(null);
+  var postID = new mongo.ObjectID(req.params.id);
+  Post.find({ _id: req.params.id }, function (err, docs) {
     var userID = new mongo.ObjectID(docs[0].userID);
     User.find({ _id: userID }, function (err, docs) {
       var user = docs[0];
+      console.log("Found User, sending User details");
+      res.json(user);
     });
   });
 }
@@ -137,28 +143,26 @@ function getUserByPost(req, res) {
 // deletePost
 function deletePost(req, res) {
   console.log("deletePost function called");
-  var postID = new mongo.ObjectID(req.body.postID_pre);
+  //var postID = new mongo.ObjectID(req.body.postID_pre);
+  var postID = new mongo.ObjectID(req.body.postID);
+  console.log("Deleting...");
   console.log(postID);
   // Deleting entry in user collection
-  User.update(
+
+  User.updateMany(
     { email: ssn.email },
     { $pull: { posts: { _id: postID } } },
-    { multi: true },
     function (err, result) {
       if (err) throw err;
-      Post.remove({ _id: postID }, function (err, result) {
+      Post.deleteOne({ _id: postID }, function (err, result) {
         if (err) throw err;
         User.find({ email: ssn.email }, function (err, docs) {
           // Delete all the comments replying to the post
-          Comment.remove(
-            { postID: postID },
-            { justOne: false },
-            function (err) {
-              if (err) throw err;
-              console.log("All related comments removed");
-              res.render("post", { currentUser: docs[0] });
-            }
-          );
+          Comment.deleteMany({ postID: postID }, function (err) {
+            if (err) throw err;
+            console.log("All related comments removed");
+            res.render("post", { currentUser: docs[0] });
+          });
         });
       });
     }
@@ -181,4 +185,6 @@ module.exports = {
   deletePost,
   addComment,
   getAllPosts,
+  getPostByID,
+  getUserByPost,
 };

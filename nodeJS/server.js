@@ -90,6 +90,8 @@ app.use("/deletePost", PostController.deletePost);
 app.use("/addComment", PostController.addComment);
 
 app.use("/getAllPosts", PostController.getAllPosts);
+app.use("/getPostByID/:id", PostController.getPostByID);
+app.use("/getUserByPost/:id", PostController.getUserByPost);
 
 // app.use('/register',(req, res) => {
 //     console.log("niubile");

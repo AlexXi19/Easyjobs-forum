@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
 import "semantic-ui-css/semantic.min.css";
@@ -13,21 +13,28 @@ import Login from "./views/loggin";
 // import Profile from "./views/profiles";
 import SeePost from "./views/seePost";
 import addPost from "./views/addPost";
+import UserContext from "./components/UserContext";
 
 export default function App() {
+  const [user, updateUser] = useState(undefined);
+  console.log(user);
+  const value = { user, updateUser };
+
   return (
-    <div className="wrapper">
-      <h1>Easyjobs</h1>
-      <Nav />
-      <Router>
-        {/* <Link to="/">Home</Link>
+    <UserContext.Provider value={value}>
+      <div className="wrapper">
+        <h1>Easyjobs</h1>
+        <Nav />
+        <Router>
+          {/* <Link to="/">Home</Link>
          <Link to="/Posts">Posts</Link>
          <Link to="/Login"> Login</Link> */}
-        <Route exact path="/" component={Home} />
-        <Route exact path="/Posts/:id" component={SeePost} />
-        <Route path="/Login" component={Login} />
-        <Route path="/addPost" component={addPost}/>
-      </Router>
-    </div>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/Posts/:id" component={SeePost} />
+          <Route path="/Login" component={Login} />
+          <Route path="/addPost" component={addPost} />
+        </Router>
+      </div>
+    </UserContext.Provider>
   );
 }
