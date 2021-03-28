@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Form, Button, Message, Icon } from "semantic-ui-react";
 import Card from "react-bootstrap/Card";
 import Avatar from "@material-ui/core/Avatar";
 import CardHeader from "@material-ui/core/CardHeader";
 import Axios from "axios";
+import { SessionContext } from "./UserContext";
 
 function PostForm() {
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState(false);
   const date = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
+  const { session } = useContext(SessionContext);
 
   const [post, setPost] = useState({
     id: 0,
@@ -89,7 +91,7 @@ function PostForm() {
                 avatar={<Avatar aria-label="recipe">R</Avatar>}
                 titleTypographyProps={{ variant: "subtitle2" }}
                 // title={props.name}
-                title="作者"
+                title={session.userName} //"作者"
                 subheader={date.toLocaleDateString(undefined, options)}
               />
               {submitted && (

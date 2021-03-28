@@ -60,7 +60,6 @@ function login(req, res) {
           res.send({
             token: docs[0].userName,
           });
-          console.log(docs[0]);
           console.log("password correct");
         } else {
           console.log("password incorrect");

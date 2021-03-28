@@ -9,14 +9,16 @@ import Card from "@material-ui/core/Card";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
-import UserContext from "../components/UserContext";
+import { SessionContext, setSessionCookie } from "../components/UserContext";
+import { useHistory } from "react-router";
 
 function Login() {
   var UserisRegistered = false;
   const [isRegistered, setRegisterState] = useState(true);
   const [UserName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const { user, updateUser } = useContext(UserContext);
+  const history = useHistory();
+  const { setSession } = useContext(SessionContext);
 
   function handleClick() {
     setRegisterState(!isRegistered);
@@ -39,8 +41,10 @@ function Login() {
       };
       Axios.post("http://localhost:5000/login", data).then(
         (response) => {
-          updateUser(userName);
+          setSession({ userName });
+          setSessionCookie({ userName });
           console.log(response);
+          history.push("/");
         },
         (error) => {
           console.log(error);
@@ -60,7 +64,6 @@ function Login() {
 
       Axios.post("http://localhost:5000/register", data).then(
         (response) => {
-          updateUser(userName);
           console.log(response);
         },
         (error) => {
@@ -68,8 +71,6 @@ function Login() {
         }
       );
     }
-
-    console.log(user);
   }
   const useStyles = makeStyles((theme) => ({
     root: {

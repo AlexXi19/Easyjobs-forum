@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 
 import "semantic-ui-css/semantic.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Nav from "./components/layout/Nav";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 // import AddPost from "./views/addPost";
 // import Followed from "./views/followed";
 import Home from "./views/home";
@@ -13,15 +19,17 @@ import Login from "./views/loggin";
 // import Profile from "./views/profiles";
 import SeePost from "./views/seePost";
 import addPost from "./views/addPost";
-import UserContext from "./components/UserContext";
+import UserContext, {
+  getSessionCookie,
+  SessionContext,
+} from "./components/UserContext";
+import LogoutHandler from "./views/logout";
 
 export default function App() {
-  const [user, updateUser] = useState(undefined);
-  console.log(user);
-  const value = { user, updateUser };
+  const [session, setSession] = useState(getSessionCookie());
 
   return (
-    <UserContext.Provider value={value}>
+    <SessionContext.Provider value={{ session, setSession }}>
       <div className="wrapper">
         <h1>Easyjobs</h1>
         <Nav />
@@ -33,8 +41,9 @@ export default function App() {
           <Route exact path="/Posts/:id" component={SeePost} />
           <Route path="/Login" component={Login} />
           <Route path="/addPost" component={addPost} />
+          <Route path="/logout" component={LogoutHandler} />
         </Router>
       </div>
-    </UserContext.Provider>
+    </SessionContext.Provider>
   );
 }

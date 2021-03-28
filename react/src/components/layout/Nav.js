@@ -9,10 +9,11 @@ import {
   Col,
   NavDropdown,
 } from "react-bootstrap";
-import UserContext from "../UserContext";
+import { SessionContext } from "../UserContext";
 
 export default function () {
-  const { user } = useContext(UserContext);
+  const { session } = useContext(SessionContext);
+
   return (
     <div>
       <Navbar className="py-0 navbar" bg="dark" expand="lg" variant="light">
@@ -27,7 +28,7 @@ export default function () {
               主页
             </Nav.Link>
 
-            {user === undefined ? (
+            {session.userName === undefined ? (
               <Nav.Link className="navlink text-white" href="/login">
                 登陆
               </Nav.Link>
@@ -36,6 +37,12 @@ export default function () {
                 提问/分享
               </Nav.Link>
             )}
+
+            {session.userName !== undefined ? (
+              <Nav.Link className="navlink text-white" href="/logout">
+                退出
+              </Nav.Link>
+            ) : null}
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

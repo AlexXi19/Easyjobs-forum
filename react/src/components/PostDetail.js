@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Axios from "axios";
-import UserContext from "./UserContext";
+import { SessionContext } from "./UserContext";
 
 const useStyles = makeStyles({
   root: {
@@ -32,7 +32,7 @@ export default function MediaCard() {
   const [user, setUser] = useState({});
   const options = { year: "numeric", month: "long", day: "numeric" };
   const history = useHistory();
-  const ProfileContext = useContext(UserContext);
+  const { session } = useContext(SessionContext);
 
   useEffect(() => {
     console.log("Finding Post");
@@ -79,8 +79,8 @@ export default function MediaCard() {
       }
     );
   }
-  console.log(ProfileContext.user);
-  console.log(user.email);
+
+  console.log(session, user.email);
 
   return (
     <Card className={classes.root}>
@@ -117,11 +117,11 @@ export default function MediaCard() {
         <Button size="small" color="primary">
           Learn More
         </Button>
-        {ProfileContext.user !== user.email && (
+        {session.userName === user.email ? (
           <Button size="small" color="secondary" onClick={deletePost}>
             Delete Post
           </Button>
-        )}
+        ) : null}
       </CardActions>
     </Card>
   );
