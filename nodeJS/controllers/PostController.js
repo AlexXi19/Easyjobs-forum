@@ -106,12 +106,13 @@ function getAllPosts(req, res) {
 
 // getAllPostsByUser
 function getAllPostsByUser(req, res) {
-  console.log("Finding All Post with User"+req.params.id);
+  var userID = new mongo.ObjectID(req.params.id);
+  console.log("Finding All Post with User"+userID);
   console.log("getAllPostsByUser function called");
-  User.find({ userID: req.params.id }, function (err, docs) {
+  User.find({ _id: userID }, function (err, docs) {
     var postArray = docs[0].posts;
-    res.json(postArray);
     console.log("post by user"+postArray);
+    res.json(postArray);
   });
 }
 
@@ -174,6 +175,45 @@ function deletePost(req, res) {
 }
 
 // updatePost
+function updatePost(req, res) {
+  console.log("updatePost function called");
+  var postID = new mongo.ObjectID(req.body.postID);
+
+  Post.find({ _id: req.body.postID }, function (err, docs) {
+    console.log(req.body.postID);
+    console.log("Title: ");
+    console.log(docs[0]);
+  });
+  // updatePost in user collection
+  User.updateOne(
+    { email: ssn.email },
+    {
+      $set: {
+        "posts.$[element].title": req.body.PostTitle,
+        "posts.$[element].content": req.body.PostContent,
+      },
+    },
+    { arrayFilters: [{ "element._id": { $eq: postID } }] },
+    function (err, result) {
+      if (err) throw err;
+      console.log("Updated User");
+      // updatePost in post collection
+      Post.updateOne(
+        { _id: postID },
+        {
+          $set: {
+            title: req.body.PostTitle,
+            content: req.body.PostContent,
+          },
+        },
+        function (err, result) {
+          if (err) throw err;
+          console.log("Updated post");
+        }
+      );
+    }
+  );
+}
 
 // removeLike
 
@@ -191,5 +231,6 @@ module.exports = {
   getAllPosts,
   getPostByID,
   getUserByPost,
-  getAllPostsByUser
+  getAllPostsByUser,
+  updatePost
 };

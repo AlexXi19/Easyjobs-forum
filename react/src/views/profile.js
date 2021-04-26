@@ -14,7 +14,7 @@ function Profile(){
         <ProfileIntro/>
    </Grid.Column>
    <Grid.Column width={9}>
-  <PostOverview userID={id} />
+  <PostOverview id={id} />
   </Grid.Column>
   <Grid.Column width={4}>
   

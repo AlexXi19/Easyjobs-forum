@@ -95,6 +95,7 @@ app.use("/getPostByID/:id", PostController.getPostByID);
 app.use("/getUserByPost/:id", PostController.getUserByPost);
 app.use('/getNamebyID/:id',UserController.getNamebyID);
 app.use('/getAllPostsByUser/:id',PostController.getAllPostsByUser);
+app.use("/updatePost", PostController.updatePost);
 
 // app.use('/register',(req, res) => {
 //     console.log("niubile");

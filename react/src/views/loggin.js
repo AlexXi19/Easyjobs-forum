@@ -41,8 +41,11 @@ function Login() {
       };
       Axios.post("http://localhost:5000/login", data).then(
         (response) => {
-          setSession({ userName });
-          setSessionCookie({ userName });
+          const id = response.data.token;
+          setSession({ userName, id });
+          setSessionCookie({ userName, id });
+
+          console.log("Response");
           console.log(response);
           history.push("/");
         },

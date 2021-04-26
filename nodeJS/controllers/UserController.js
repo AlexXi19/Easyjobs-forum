@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 
 function getNamebyID(req,res){
     console.log("why cannot"+req.params.id);
-    User.find({ email: req.params.id }, function (err, docs) {
+    User.find({ _id: req.params.id }, function (err, docs) {
         if (err){
             console.log(err);
         }

@@ -12,6 +12,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Axios from "axios";
 import { SessionContext } from "./UserContext";
+import PostForm from "./PostForm";
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +31,7 @@ export default function MediaCard() {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [user, setUser] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
   const options = { year: "numeric", month: "long", day: "numeric" };
   const history = useHistory();
   const { session } = useContext(SessionContext);
@@ -80,6 +82,11 @@ export default function MediaCard() {
     );
   }
 
+  function updatePost() {
+    setIsEditing(!isEditing);
+    window.location.reload();
+  }
+
   console.log(session, user.email);
 
   return (
@@ -89,40 +96,65 @@ export default function MediaCard() {
         image="https://picsum.photos/700/700"
         title="Contemplative Reptile"
       />
-      <CardContent className={classes.content}>
-        <Typography gutterBottom variant="h3" component="h2">
-          {post.title}
-        </Typography>
-
-        <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {/* {post.icon} */}
-            </Avatar>
-          }
-          titleTypographyProps={{ variant: "subtitle2" }}
-          title={user.firstName + " " + user.lastName}
-          subheader={new Date(post.date).toLocaleDateString(undefined, options)}
-          className={classes.author}
+      {!isEditing ? (
+        <div>
+          <CardContent className={classes.content}>
+            <Typography gutterBottom variant="h3" component="h2">
+              {post.title}
+            </Typography>
+            <CardHeader
+              avatar={
+                <Avatar aria-label="recipe" className={classes.avatar}>
+                  {/* {post.icon} */}
+                </Avatar>
+              }
+              titleTypographyProps={{ variant: "subtitle2" }}
+              title={user.firstName + " " + user.lastName}
+              subheader={new Date(post.date).toLocaleDateString(
+                undefined,
+                options
+              )}
+              className={classes.author}
+            />
+            <Typography variant="body1" color="textPrimary" component="p">
+              {post.content}
+            </Typography>
+          </CardContent>
+          :
+          <CardActions>
+            <Button size="small" color="primary">
+              Share
+            </Button>
+            <Button size="small" color="primary">
+              Learn More
+            </Button>
+            {session.userName === user.email ? (
+              <div>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    setIsEditing(!isEditing);
+                  }}
+                >
+                  Edit Post
+                </Button>
+                <Button size="small" color="secondary" onClick={deletePost}>
+                  Delete Post
+                </Button>
+              </div>
+            ) : null}
+          </CardActions>{" "}
+        </div>
+      ) : (
+        <PostForm
+          title={post.title}
+          content={post.content}
+          id={id}
+          isEdit={true}
+          cancelEdit={updatePost}
         />
-        <Typography variant="body1" color="textPrimary" component="p">
-          {post.content}
-        </Typography>
-      </CardContent>
-
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-        {session.userName === user.email ? (
-          <Button size="small" color="secondary" onClick={deletePost}>
-            Delete Post
-          </Button>
-        ) : null}
-      </CardActions>
+      )}
     </Card>
   );
 }

@@ -58,7 +58,7 @@ function login(req, res) {
           ssn.email = formEmail;
           // res.render("post", { currentUser: docs[0], User: User });
           res.send({
-            token: docs[0].userName,
+            token: docs[0]._id,
           });
           console.log("password correct");
         } else {

@@ -14,6 +14,7 @@ import { SessionContext } from "../UserContext";
 export default function () {
   const { session } = useContext(SessionContext);
 
+  console.log("Look here...");
   return (
     <div>
       <Navbar className="py-0 navbar" bg="dark" expand="lg" variant="light">
@@ -52,7 +53,7 @@ export default function () {
       </NavDropdown> */}
       {session.userName !== undefined ? (
           
-          <Nav.Link className="navlink text-white" href={"/profile/"+session.userName}>
+          <Nav.Link className="navlink text-white" href={"/profile/"+session.id}>
       个人中心
       </Nav.Link>
 
