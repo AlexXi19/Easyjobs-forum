@@ -170,6 +170,45 @@ function deletePost(req, res) {
 }
 
 // updatePost
+function updatePost(req, res) {
+  console.log("updatePost function called");
+  var postID = new mongo.ObjectID(req.body.postID);
+
+  Post.find({ _id: req.body.postID }, function (err, docs) {
+    console.log(req.body.postID);
+    console.log("Title: ");
+    console.log(docs[0]);
+  });
+  // updatePost in user collection
+  User.updateOne(
+    { email: ssn.email },
+    {
+      $set: {
+        "posts.$[element].title": req.body.PostTitle,
+        "posts.$[element].content": req.body.PostContent,
+      },
+    },
+    { arrayFilters: [{ "element._id": { $eq: postID } }] },
+    function (err, result) {
+      if (err) throw err;
+      console.log("Updated User");
+      // updatePost in post collection
+      Post.updateOne(
+        { _id: postID },
+        {
+          $set: {
+            title: req.body.PostTitle,
+            content: req.body.PostContent,
+          },
+        },
+        function (err, result) {
+          if (err) throw err;
+          console.log("Updated post");
+        }
+      );
+    }
+  );
+}
 
 // removeLike
 
@@ -187,4 +226,5 @@ module.exports = {
   getAllPosts,
   getPostByID,
   getUserByPost,
+  updatePost,
 };

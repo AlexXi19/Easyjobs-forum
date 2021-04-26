@@ -14,6 +14,7 @@ import { SessionContext } from "../UserContext";
 export default function () {
   const { session } = useContext(SessionContext);
 
+  console.log("Look here...");
   return (
     <div>
       <Navbar className="py-0 navbar" bg="dark" expand="lg" variant="light">
