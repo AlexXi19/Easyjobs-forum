@@ -22,14 +22,27 @@ import Link from "@material-ui/core/Link";
 import PostEntry from "./PostEntry.js";
 import Axios from "axios";
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(props) {
+  console.log("IDDDDD is "+props.userID);
   console.log("Getting All Posts");
 
   const [posts, setPosts] = useState([]);
   const options = { year: "numeric", month: "long", day: "numeric" };
-
+  const [identity,setID]=useState("");
+  
   useEffect(() => {
-    Axios.get("http://localhost:5000/getAllPosts").then(
+    if (props.userID!=0){
+      Axios.get("http://localhost:5000/getNamebyID/"+props.userID).then(
+        (response) => {
+          setID(response.data._id);
+            console.log("here"+response.data._id);
+          },
+          (error) => {
+            console.log("Could not get User");
+            console.log(error);
+          }
+        );
+    Axios.get("http://localhost:5000/getAllPostsByUser"+identity).then(
       (response) => {
         setPosts(response.data);
       },
@@ -38,7 +51,19 @@ export default function RecipeReviewCard() {
         console.log(error);
       }
     );
-  }, []);
+  }
+  else{
+  Axios.get("http://localhost:5000/getAllPosts").then(
+      (response) => {
+        setPosts(response.data);
+      },
+      (error) => {
+        console.log("Could not get posts");
+        console.log(error);
+      }
+    );}
+}, []);
+
 
   return (
     <div>

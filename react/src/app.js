@@ -19,6 +19,7 @@ import Login from "./views/loggin";
 // import Profile from "./views/profiles";
 import SeePost from "./views/seePost";
 import addPost from "./views/addPost";
+import Profile from "./views/profile";
 import UserContext, {
   getSessionCookie,
   SessionContext,
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/Login" component={Login} />
           <Route path="/addPost" component={addPost} />
           <Route path="/logout" component={LogoutHandler} />
+          <Route path="/profile/:id" component={Profile}/>
         </Router>
       </div>
     </SessionContext.Provider>

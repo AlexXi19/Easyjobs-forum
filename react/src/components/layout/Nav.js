@@ -50,6 +50,13 @@ export default function () {
         <NavDropdown.Divider />
         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
       </NavDropdown> */}
+      {session.userName !== undefined ? (
+          
+          <Nav.Link className="navlink text-white" href={"/profile/"+session.userName}>
+      个人中心
+      </Nav.Link>
+
+        ) : null}
           </Nav>
 
           <Form inline>

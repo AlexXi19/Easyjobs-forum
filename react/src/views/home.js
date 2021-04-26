@@ -19,7 +19,7 @@ function Home(){
   
    </Grid.Column>
    <Grid.Column width={9}>
-  <PostOverview/>
+  <PostOverview userID={0}/>
   </Grid.Column>
   <Grid.Column width={4}>
   

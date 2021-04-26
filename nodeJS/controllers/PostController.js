@@ -99,15 +99,19 @@ function getAllPosts(req, res) {
   Post.find({}, function (err, docs) {
     var postArray = docs;
     console.log("Sending Posts");
+    console.log(docs);
     res.json(postArray);
   });
 }
 
 // getAllPostsByUser
 function getAllPostsByUser(req, res) {
+  console.log("Finding All Post with User"+req.params.id);
   console.log("getAllPostsByUser function called");
-  User.find({ email: ssn.email }, function (err, docs) {
+  User.find({ userID: req.params.id }, function (err, docs) {
     var postArray = docs[0].posts;
+    res.json(postArray);
+    console.log("post by user"+postArray);
   });
 }
 
@@ -187,4 +191,5 @@ module.exports = {
   getAllPosts,
   getPostByID,
   getUserByPost,
+  getAllPostsByUser
 };

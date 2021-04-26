@@ -10,6 +10,7 @@ const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const AuthContoller = require("./controllers/AuthController");
 const PostController = require("./controllers/PostController");
+const UserController=require("./controllers/UserController");
 const app = express();
 const passport = require("passport");
 var cors = require("cors");
@@ -18,7 +19,7 @@ app.use(cors());
 const proxy = require("http-proxy-middleware");
 
 module.exports = function (app) {
-  app.use(proxy("/api/*", { target: "http://localhost:5000" }));
+  app.use(proxy("/api/*", { target: "http://localhost:5000/" }));
 };
 
 console.log("in");
@@ -92,6 +93,8 @@ app.use("/addComment", PostController.addComment);
 app.use("/getAllPosts", PostController.getAllPosts);
 app.use("/getPostByID/:id", PostController.getPostByID);
 app.use("/getUserByPost/:id", PostController.getUserByPost);
+app.use('/getNamebyID/:id',UserController.getNamebyID);
+app.use('/getAllPostsByUser/:id',PostController.getAllPostsByUser);
 
 // app.use('/register',(req, res) => {
 //     console.log("niubile");

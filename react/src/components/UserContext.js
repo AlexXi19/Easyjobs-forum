@@ -1,5 +1,5 @@
 import React from "react";
-import * as Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 export const removeSessionCookie = () => {
   Cookies.remove("session");
