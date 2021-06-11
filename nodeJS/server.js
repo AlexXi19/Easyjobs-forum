@@ -1,5 +1,7 @@
 const express = require("express");
+
 const mongoose = require("mongoose");
+
 const bodyParser = require("body-parser");
 // const authRoute = require('./routes/auth');
 // const postsRoute = require('./routes/posts');
@@ -21,8 +23,6 @@ const proxy = require("http-proxy-middleware");
 module.exports = function (app) {
   app.use(proxy("/api/*", { target: "http://localhost:5000/" }));
 };
-
-console.log("in");
 
 app.use(passport.initialize()); //use passport and initialize passport package
 
@@ -51,11 +51,21 @@ const server = http.createServer((req, res) => {
 
 // Database
 
-mongoose.connect("mongodb://127.0.0.1:27017/testdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+// Use local database
+//mongoose.connect("mongodb://127.0.0.1:27017/testdb", {
+//  useNewUrlParser: true,
+//  useUnifiedTopology: true,
+//  useCreateIndex: true,
+//});
+
+// Using MongoDB Atlas
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://Alex:Apple@cluster0.4sxzx.mongodb.net/testDB?retryWrites=true&w=majority";
+
+mongoose.connect( uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+     .then(() => console.log( 'Database Connected' ))
+     .catch(err => console.log( err ));
+
 const db = mongoose.connection;
 
 db.on("error", function (err) {
