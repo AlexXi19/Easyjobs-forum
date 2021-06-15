@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function FormDialog() {
+export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,35 +20,44 @@ export default function FormDialog() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
+      <Button size="small" color="primary" onClick={handleClickOpen}>
+        Edit Post
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Post</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
-          </DialogContentText>
+          </DialogContentText> */}
+          <TextField
+            id="title"
+            label="Post Header"
+            autoComplete="off"
+            margin="dense"
+            defaultValue={props.title}
+            fullWidth
+          />
           <TextField
             autoFocus
+            id="content"
+            label="Post Content"
             margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
+            autoComplete="off"
+            defaultValue={props.content}
             fullWidth
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            取消
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            更新
           </Button>
         </DialogActions>
       </Dialog>

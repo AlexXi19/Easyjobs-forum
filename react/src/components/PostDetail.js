@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -13,6 +12,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Axios from "axios";
 import { SessionContext } from "./UserContext";
 import PostForm from "./PostForm";
+import FormDialog from "./UpdatePostDialog";
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +31,6 @@ export default function MediaCard() {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [user, setUser] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
   const options = { year: "numeric", month: "long", day: "numeric" };
   const history = useHistory();
   const { session } = useContext(SessionContext);
@@ -83,7 +82,6 @@ export default function MediaCard() {
   }
 
   function updatePost() {
-    setIsEditing(!isEditing);
     window.location.reload();
   }
 
@@ -96,65 +94,62 @@ export default function MediaCard() {
         image="https://picsum.photos/700/700"
         title="Contemplative Reptile"
       />
-      {!isEditing ? (
-        <div>
-          <CardContent className={classes.content}>
-            <Typography gutterBottom variant="h3" component="h2">
-              {post.title}
-            </Typography>
-            <CardHeader
-              avatar={
-                <Avatar aria-label="recipe" className={classes.avatar}>
-                  {/* {post.icon} */}
-                </Avatar>
-              }
-              titleTypographyProps={{ variant: "subtitle2" }}
-              title={user.firstName + " " + user.lastName}
-              subheader={new Date(post.date).toLocaleDateString(
-                undefined,
-                options
-              )}
-              className={classes.author}
-            />
-            <Typography variant="body1" color="textPrimary" component="p">
-              {post.content}
-            </Typography>
-          </CardContent>
-          :
-          <CardActions>
-            <Button size="small" color="primary">
-              Share
-            </Button>
-            <Button size="small" color="primary">
-              Learn More
-            </Button>
-            {session.userName === user.email ? (
-              <div>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => {
-                    setIsEditing(!isEditing);
-                  }}
-                >
-                  Edit Post
-                </Button>
-                <Button size="small" color="secondary" onClick={deletePost}>
-                  Delete Post
-                </Button>
-              </div>
-            ) : null}
-          </CardActions>{" "}
-        </div>
-      ) : (
-        <PostForm
-          title={post.title}
-          content={post.content}
-          id={id}
-          isEdit={true}
-          cancelEdit={updatePost}
+
+      <CardContent className={classes.content}>
+        <Typography gutterBottom variant="h3" component="h2">
+          {post.title}
+        </Typography>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {/* {post.icon} */}
+            </Avatar>
+          }
+          titleTypographyProps={{ variant: "subtitle2" }}
+          title={user.firstName + " " + user.lastName}
+          subheader={new Date(post.date).toLocaleDateString(undefined, options)}
+          className={classes.author}
         />
+        <Typography variant="body1" color="textPrimary" component="p">
+          {post.content}
+        </Typography>
+      </CardContent>
+
+      {session.userName === user.email ? (
+        <CardActions>
+          <Button size="small" color="primary">
+            Share
+          </Button>
+          <Button size="small" color="primary">
+            Learn More
+          </Button>
+          <FormDialog title={post.title} content={post.content} />
+          <Button size="small" color="secondary" onClick={deletePost}>
+            Delete Post
+          </Button>
+        </CardActions>
+      ) : (
+        <CardActions>
+          <Button size="small" color="primary">
+            Share
+          </Button>
+          <Button size="small" color="primary">
+            Learn More
+          </Button>
+        </CardActions>
       )}
+      {/* </div>
+      ) : (
+        <div>
+          <PostForm
+            title={post.title}
+            content={post.content}
+            id={id}
+            isEdit={true}
+            cancelEdit={updatePost}
+          />
+        </div>
+      )} */}
     </Card>
   );
 }
