@@ -8,14 +8,19 @@ var mongo = require("mongodb");
 function addLike(req, res) {
     console.log("addLike function called");
     var postID = new mongo.ObjectID(req.body.postID);
-    Post.updateOne(
-      { _id: postID },
-      { $inc: { likesNum: 1 } },
-      function (err, result) {
-        if (err) throw err;
-        console.log(result)
-      }
-    );
+    console.log(postID);
+    Post.find({ title: "my name chenxiaoni" }, function (err, docs) {
+      if (err) throw err;
+      console.log(docs)
+    })
+//    Post.updateOne(
+//      { _id: postID },
+//      { $inc: { likesNum: 1 } },
+//      function (err, result) {
+//        if (err) throw err;
+//        console.log(result)
+//      }
+//    );
 }
 
 // removeLike
@@ -254,5 +259,6 @@ module.exports = {
   getPostByID,
   getUserByPost,
   getAllPostsByUser,
-  updatePost
+  updatePost,
+  addLike
 };
