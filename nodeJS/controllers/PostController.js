@@ -5,6 +5,28 @@ const UserController = require("./UserController");
 var mongo = require("mongodb");
 
 // addLike
+function addLike(req, res) {
+    console.log("addLike function called");
+    var postID = new mongo.ObjectID(req.body.postID);
+    Post.updateOne(
+      { _id: postID },
+      { $inc: { likesNum: 1 } },
+      function (err, result) {
+        if (err) throw err;
+        console.log(result)
+      }
+    );
+}
+
+// removeLike
+function removeLike(req, res) {
+    console.log("removeLike function called");
+    var postID = new mongo.ObjectID(req.body.postID);
+      var userID = new mongo.ObjectID(docs[0].userID);
+      Post.update({_id: req.params.id}, {$inc: {likes_count: counter}}, {}, (err, numberAffected) => {
+      res.send('');
+      });
+}
 
 // addPost
 function addPost(req, res) {
@@ -133,7 +155,8 @@ function getPostByID(req, res) {
 function getUserByPost(req, res) {
   // Returns user object with postID as input
   console.log("getUserByPost function called");
-  // var postID = new mongo.ObjectID(null);
+
+  // ?? Unused variable?
   var postID = new mongo.ObjectID(req.params.id);
   Post.find({ _id: req.params.id }, function (err, docs) {
     var userID = new mongo.ObjectID(docs[0].userID);
@@ -153,7 +176,6 @@ function deletePost(req, res) {
   console.log("Deleting...");
   console.log(postID);
   // Deleting entry in user collection
-
   User.updateMany(
     { email: ssn.email },
     { $pull: { posts: { _id: postID } } },

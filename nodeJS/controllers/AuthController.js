@@ -8,14 +8,14 @@ async function register(req, res) {
 
   console.log("register function called");
   const password = await req.body.password;
-
+  console.log(password);
   bcrypt.hash(password, salt, function (err, hash) {
     //Creating a new user
     const newUser = new User({
       password: hash,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.userName,
+      email: req.body.email,
     });
     if (err) {
       console.log(err);
