@@ -11,7 +11,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Axios from "axios";
 import { SessionContext } from "./UserContext";
-import PostForm from "./PostForm";
 import FormDialog from "./UpdatePostDialog";
 
 const useStyles = makeStyles({
@@ -81,10 +80,6 @@ export default function MediaCard() {
     );
   }
 
-  function updatePost() {
-    window.location.reload();
-  }
-
   console.log(session, user.email);
 
   return (
@@ -123,7 +118,7 @@ export default function MediaCard() {
           <Button size="small" color="primary">
             Learn More
           </Button>
-          <FormDialog title={post.title} content={post.content} />
+          <FormDialog title={post.title} content={post.content} id={id} />
           <Button size="small" color="secondary" onClick={deletePost}>
             Delete Post
           </Button>
@@ -138,18 +133,6 @@ export default function MediaCard() {
           </Button>
         </CardActions>
       )}
-      {/* </div>
-      ) : (
-        <div>
-          <PostForm
-            title={post.title}
-            content={post.content}
-            id={id}
-            isEdit={true}
-            cancelEdit={updatePost}
-          />
-        </div>
-      )} */}
     </Card>
   );
 }

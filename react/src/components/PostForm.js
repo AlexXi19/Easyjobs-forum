@@ -13,36 +13,26 @@ function PostForm(props) {
   const date = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const { session } = useContext(SessionContext);
-  const [isEditing, setIsEditing] = useState(props.isEdit ? true : false);
 
   const [post, setPost] = useState({
-    id: 0,
-    name: "",
-    title: props.title,
-    text: props.content,
+    title: "",
+    text: "",
   });
 
   function handleTextChange(event) {
     const { value, name } = event.target;
-
-    if (post.title !== "") {
-      setFormError(false);
-    }
 
     setSubmitted(false);
 
     setPost((prevValue) => {
       if (name === "text") {
         return {
-          id: prevValue.id,
-          name: prevValue.name,
           title: prevValue.title,
           text: value,
         };
       } else if (name === "title") {
+        setFormError(false);
         return {
-          id: prevValue.id,
-          name: prevValue.name,
           title: value,
           text: prevValue.text,
         };
@@ -64,32 +54,17 @@ function PostForm(props) {
 
     console.log(data);
 
+    Axios.post("http://localhost:5000/addPost", data).then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    setFormError(false);
     setSubmitted(true);
-
-    if (isEditing) {
-      data.postID = props.id;
-
-      console.log("Updating Post");
-      Axios.patch("http://localhost:5000/updatePost", data).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    } else {
-      Axios.post("http://localhost:5000/addPost", data).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      setFormError(false);
-      setPost({ id: 0, name: "", title: "", text: "" });
-    }
+    setPost({ title: "", text: "" });
   }
 
   return (
@@ -113,7 +88,7 @@ function PostForm(props) {
               {submitted && (
                 <Message success>
                   <Icon name="check" />
-                  {isEditing ? "Post Updated" : "Post Created"}
+                  Post Created
                 </Message>
               )}
               <div className="form-group">
@@ -142,27 +117,9 @@ function PostForm(props) {
                   onChange={handleTextChange}
                 />
               </div>
-              {isEditing ? (
-                <div>
-                  <Button size="small" color="primary" onClick={onSubmit}>
-                    更新
-                  </Button>
-                  <Button
-                    size="small"
-                    color="secondary"
-                    onClick={props.cancelEdit}
-                  >
-                    取消
-                  </Button>
-                </div>
-              ) : (
-                <Button variant="contained" color="primary" onClick={onSubmit}>
-                  更新
-                </Button>
-              )}
-              {/* <Button primary className="ui submit button">
-                {isEditing ? "更新" : "发布"}
-              </Button> */}
+              <Button variant="contained" color="primary" onClick={onSubmit}>
+                发布
+              </Button>
             </Form>
           </Card>
         </Grid.Column>
