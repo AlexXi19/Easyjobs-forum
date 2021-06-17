@@ -8,30 +8,67 @@ var mongo = require("mongodb");
 function addLike(req, res) {
     console.log("addLike function called");
     var postID = new mongo.ObjectID(req.body.postID);
-    console.log(postID);
-    Post.find({ title: "my name chenxiaoni" }, function (err, docs) {
-      if (err) throw err;
-      console.log(docs)
-    })
-//    Post.updateOne(
-//      { _id: postID },
-//      { $inc: { likesNum: 1 } },
-//      function (err, result) {
-//        if (err) throw err;
-//        console.log(result)
-//      }
-//    );
+    // GET USER ID
+    var userID = ssn.email;
+
+    // Determined whether to increase or decrease
+    var increase = true;
+    if (increase) {
+      var value = 1;
+    } else {
+      var value = -1
+    }
+    Post.find(
+      { _id: postID }, function (err, docs) {
+        // Asserting that the likesNum is equal to the number of userIDs
+        // This should be the last step of the entire process
+        // Ideally should never be called
+        Post.aggregate([{$match: {_id: postID}}, {$project: {likes: {$size: '$likes'}}}],
+        function (err, docs1) {
+          var numLikes = docs1[0].likes;
+          if (numLikes != docs[0].likesNum) {
+            console.log(numLikes);
+            console.log(docs[0]);
+            console.log("Assertion error: number of elements in likes array is not equal to likesNum");
+            console.log("Resetting likeNum...")
+            Post.updateOne(
+              { _id: postID },
+              { $set: { likesNum: numLikes } },
+              function (err, result) {
+                if (err) throw err;
+                console.log("Reset likeNum complete");
+              }
+            )
+          }
+        });
+      // Asserting that the userID is not already in the array
+      // Double insurance
+      if (docs[0].likes.includes(userID)) {
+        console.log("User already liked");
+      } else {
+        // Adds or removes from the array
+        if (increase) {
+          docs[0].likes.push(userID);
+          docs[0].save();
+        } else {
+          docs[0].likes.pull(userID);
+          docs[0].save();
+        }
+
+      // Updating the like number for the post (increasing/decreasing by one)
+      Post.updateOne(
+        { _id: postID },
+        { $inc: { likesNum: value } },
+        function (err, result) {
+          if (err) throw err;
+          console.log("likesNum incremented successfully");
+        }
+      );
+      }
+      }
+    )
 }
 
-// removeLike
-function removeLike(req, res) {
-    console.log("removeLike function called");
-    var postID = new mongo.ObjectID(req.body.postID);
-      var userID = new mongo.ObjectID(docs[0].userID);
-      Post.update({_id: req.params.id}, {$inc: {likes_count: counter}}, {}, (err, numberAffected) => {
-      res.send('');
-      });
-}
 
 // addPost
 function addPost(req, res) {

@@ -8,20 +8,27 @@ async function register(req, res) {
 
   console.log("register function called");
   const password = await req.body.password;
+  const email = await req.body.userName;
+
+  console.log(email);
   console.log(password);
+
   bcrypt.hash(password, salt, function (err, hash) {
     //Creating a new user
     const newUser = new User({
       password: hash,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
+      email: email,
     });
     if (err) {
       console.log(err);
     } else {
       // Validating user
       User.find({ email: newUser.email }, function (err, docs) {
+        if (err) {
+        console.log("User Validation failed")
+        console.log(err)}
         if (docs.length == 0) {
           newUser.save();
           console.log("User saved");
