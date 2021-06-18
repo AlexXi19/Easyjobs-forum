@@ -23,38 +23,36 @@ import PostEntry from "./PostEntry.js";
 import Axios from "axios";
 
 export default function RecipeReviewCard(props) {
-  console.log("IDDDDD is "+props.userID);
+  console.log("IDDDDD is " + props.userID);
   console.log("Getting All Posts");
- 
+
   const [posts, setPosts] = useState([]);
   const options = { year: "numeric", month: "long", day: "numeric" };
-  const [identity,setID]=useState(props.id);
-  
-  useEffect(() => {
-    if (props.userID!=0){
-     
-    Axios.get("http://localhost:5000/getAllPostsByUser/"+props.id).then(
-      (response) => {
-        setPosts(response.data);
-      },
-      (error) => {
-        console.log("Could not get posts");
-        console.log(error);
-      }
-    );
-  }
-  else{
-  Axios.get("http://localhost:5000/getAllPosts").then(
-      (response) => {
-        setPosts(response.data);
-      },
-      (error) => {
-        console.log("Could not get posts");
-        console.log(error);
-      }
-    );}
-}, []);
+  const [identity, setID] = useState(props.id);
 
+  useEffect(() => {
+    if (props.userID != 0) {
+      Axios.get("http://localhost:5000/getAllPostsByUser/" + props.id).then(
+        (response) => {
+          setPosts(response.data);
+        },
+        (error) => {
+          console.log("Could not get posts");
+          console.log(error);
+        }
+      );
+    } else {
+      Axios.get("http://localhost:5000/getAllPosts").then(
+        (response) => {
+          setPosts(response.data);
+        },
+        (error) => {
+          console.log("Could not get posts");
+          console.log(error);
+        }
+      );
+    }
+  }, []);
 
   return (
     <div>

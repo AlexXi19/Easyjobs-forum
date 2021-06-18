@@ -20,6 +20,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { cardTitle } from "../assets/jss/material-kit-react";
 import CommentIcon from "@material-ui/icons/Comment";
 import Axios from "axios";
+import LikeButton from "./atoms/LikeButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +58,6 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [user, setUser] = useState({});
-  const [isLiked, setLiked] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -126,12 +126,7 @@ export default function RecipeReviewCard(props) {
             </CardContent>
           </CardActionArea>
         </Link>
-        <IconButton aria-label="Like">
-          <FavoriteIcon
-            onClick={likePost}
-            color={isLiked ? "secondary" : "inherit"}
-          />
-        </IconButton>
+        <LikeButton id={props.id} />
         <IconButton aria-label="Comment">
           <CommentIcon />
         </IconButton>
