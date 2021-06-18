@@ -63,29 +63,6 @@ export default function RecipeReviewCard(props) {
     setExpanded(!expanded);
   };
 
-  function likePost() {
-    // CHANGES THIS LATER, CURRENTLY IT ONLY LIKES THE BUTTON
-    if (!isLiked) {
-      setLiked(!isLiked);
-
-      console.log("Liking Post " + props.id);
-
-      let data = {
-        postID: props.id,
-
-      };
-
-      Axios.post("http://localhost:5000/addLike", data).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-  }
-
   useEffect(() => {
     console.log("Finding User for post.");
 
