@@ -105,12 +105,7 @@ function addComment(req, res) {
     // Obtaining values from front end
     var currentUserID = docs[0]._id;
     var currentContent = req.body.commentContent_pre;
-    // None means this is the first comment to a post
-    if (req.body.replyComment_pre == "None") {
-      var currentReplyToID = null;
-    } else {
-      var currentReplyToID = new mongo.ObjectID(req.body.replyComment_pre);
-    }
+    var currentReplyToID = null;
     var currentPostID = new mongo.ObjectID(req.body.replyPost_pre);
 
     // Creating comment object
@@ -210,12 +205,13 @@ function getUserByPost(req, res) {
   });
 }
 
+
 // deletePost
 function deletePost(req, res) {
   console.log("deletePost function called");
   //var postID = new mongo.ObjectID(req.body.postID_pre);
   var postID = new mongo.ObjectID(req.body.postID);
-  console.log("Deleting...");
+  console.log("Deleting Post...");
   console.log(postID);
   // Deleting entry in user collection
   User.updateMany(
@@ -279,9 +275,36 @@ function updatePost(req, res) {
   );
 }
 
-// removeLike
+// deleteComment
+function deleteComment(req, res) {
+   console.log("deleteComment function called");
+   var commentID = new mongo.ObjectID(req.body.commentID);
+   var postID = new mongo.ObjectID(req.body.postID);
+   var userID = new mongo.ObjectID(req.body.userID);
+   console.log("Deleting Comment...");
+   console.log(commentID);
+   // Deleting entry in Post collection
+   Post.updateMany(
+     { _id: postID },
+     { $pull: { comments: { _id: commentID } } },
+     function (err, result) {
+       if (err) throw err;
+       // Deleting entry in Comment collection
+       console.log("Comment in Post collection deleted");
+       Comment.deleteOne({ _id: commentID }, function (err, result) {
+         if (err) throw err;
+         console.log("Comment in Comment collection deleted");
+         User.find({ _id: userID }, function (err, docs) {
+           // Delete all the comments replying to the post
+           docs[0].posts
+             res.render("post", { currentUser: docs[0] });
+           });
+         });
+       });
+     }
+   );
+ }
 
-// removeComment
 
 // getPostLikeNumber
 
