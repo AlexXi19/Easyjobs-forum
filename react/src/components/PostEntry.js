@@ -72,6 +72,7 @@ export default function RecipeReviewCard(props) {
 
       let data = {
         postID: props.id,
+
       };
 
       Axios.post("http://localhost:5000/addLike", data).then(

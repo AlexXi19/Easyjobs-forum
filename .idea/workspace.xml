@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="88ba5b3d-a29c-4ff7-a6df-0df4239710e5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodeJS/controllers/PostController.js" beforeDir="false" afterPath="$PROJECT_DIR$/nodeJS/controllers/PostController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/src/components/PostEntry.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/src/components/PostEntry.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
