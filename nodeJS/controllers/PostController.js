@@ -11,49 +11,55 @@ function addLike(req, res) {
     // GET USER ID
     var userID = new mongo.ObjectID(req.body.userID);
 
-    // Determined whether to increase or decrease
-    var increase = true;
-    if (increase) {
-      var value = 1;
-    } else {
-      var value = -1
-    }
-    Post.find(
-      { _id: postID }, function (err, docs) {
-        // Asserting that the likesNum is equal to the number of userIDs
-        // This should be the last step of the entire process
-        // Ideally should never be called
-        Post.aggregate([{$match: {_id: postID}}, {$project: {likes: {$size: '$likes'}}}],
-        function (err, docs1) {
-          var numLikes = docs1[0].likes;
-          if (numLikes != docs[0].likesNum) {
-            console.log(numLikes);
-            console.log(docs[0]);
-            console.log("Assertion error: number of elements in likes array is not equal to likesNum");
-            console.log("Resetting likeNum...")
-            Post.updateOne(
-              { _id: postID },
-              { $set: { likesNum: numLikes } },
-              function (err, result) {
-                if (err) throw err;
-                console.log("Reset likeNum complete");
-              }
-            )
-          }
-        });
-      // Asserting that the userID is not already in the array
-      // Double insurance
-      if (docs[0].likes.includes(userID)) {
-        console.log("User already liked");
-      } else {
-        // Adds or removes from the array
-        if (increase) {
-          docs[0].likes.push(userID);
-          docs[0].save();
-        } else {
-          docs[0].likes.pull(userID);
-          docs[0].save();
+  // Determined whether to increase or decrease
+  var increase = true;
+  if (increase) {
+    var value = 1;
+  } else {
+    var value = -1;
+  }
+  Post.find({ _id: postID }, function (err, docs) {
+    // Asserting that the likesNum is equal to the number of userIDs
+    // This should be the last step of the entire process
+    // Ideally should never be called
+    Post.aggregate(
+      [
+        { $match: { _id: postID } },
+        { $project: { likes: { $size: "$likes" } } },
+      ],
+      function (err, docs1) {
+        var numLikes = docs1[0].likes;
+        if (numLikes != docs[0].likesNum) {
+          console.log(numLikes);
+          console.log(docs[0]);
+          console.log(
+            "Assertion error: number of elements in likes array is not equal to likesNum"
+          );
+          console.log("Resetting likeNum...");
+          Post.updateOne(
+            { _id: postID },
+            { $set: { likesNum: numLikes } },
+            function (err, result) {
+              if (err) throw err;
+              console.log("Reset likeNum complete");
+            }
+          );
         }
+      }
+    );
+    // Asserting that the userID is not already in the array
+    // Double insurance
+    if (docs[0].likes.includes(userID)) {
+      console.log("User already liked");
+    } else {
+      // Adds or removes from the array
+      if (increase) {
+        docs[0].likes.push(userID);
+        docs[0].save();
+      } else {
+        docs[0].likes.pull(userID);
+        docs[0].save();
+      }
 
       // Updating the like number for the post (increasing/decreasing by one)
       Post.updateOne(
@@ -64,11 +70,9 @@ function addLike(req, res) {
           console.log("likesNum incremented successfully");
         }
       );
-      }
-      }
-    )
+    }
+  });
 }
-
 
 // addPost
 function addPost(req, res) {
@@ -103,9 +107,11 @@ function addComment(req, res) {
   User.find({ email: ssn.email }, function (err, docs) {
     // Obtaining values from front end
     var currentUserID = docs[0]._id;
-    var currentContent = req.body.commentContent_pre;
-    var currentReplyToID = null;
-    var currentPostID = new mongo.ObjectID(req.body.replyPost_pre);
+    var currentContent = req.body.commentContent;
+    var currentReplyToID = req.body.replyToID
+      ? new mongo.ObjectID(req.body.replyToID)
+      : null;
+    var currentPostID = new mongo.ObjectID(req.body.replyPostID);
 
     // Creating comment object
     const newComment = new Comment({
@@ -151,7 +157,7 @@ function getAllPosts(req, res) {
 // getAllPostsByUser
 function getAllPostsByUser(req, res) {
   var userID = new mongo.ObjectID(req.params.id);
-  console.log("Finding All Post with User"+userID);
+  console.log("Finding All Post with User" + userID);
   console.log("getAllPostsByUser function called");
   User.find({ _id: userID }, function (err, docs) {
     var postArray = docs[0].posts;
@@ -195,7 +201,6 @@ function getUserByPost(req, res) {
   });
 }
 
-
 // deletePost
 function deletePost(req, res) {
   console.log("deletePost function called");
@@ -234,36 +239,51 @@ function updatePost(req, res) {
     console.log("Title: ");
     console.log(docs[0]);
   });
-  // updatePost in user collection
-  User.updateOne(
-    { email: ssn.email },
+
+  Post.updateOne(
+    { _id: postID },
     {
       $set: {
-        "posts.$[element].title": req.body.PostTitle,
-        "posts.$[element].content": req.body.PostContent,
+        title: req.body.PostTitle,
+        content: req.body.PostContent,
       },
     },
-    { arrayFilters: [{ "element._id": { $eq: postID } }] },
     function (err, result) {
       if (err) throw err;
-      console.log("Updated User");
-      // updatePost in post collection
-      Post.updateOne(
-        { _id: postID },
-        {
-          $set: {
-            title: req.body.PostTitle,
-            content: req.body.PostContent,
-          },
-        },
-        function (err, result) {
-          if (err) throw err;
-          console.log("Updated post");
-        }
-      );
+      console.log("Updated post");
     }
   );
 }
+// updatePost in user collection. The below code considers User's posts are the entire post instead of just id.
+// User.updateOne(
+//   { email: ssn.email },
+//   {
+//     $set: {
+//       "posts.$[element].title": req.body.PostTitle,
+//       "posts.$[element].content": req.body.PostContent,
+//     },
+//   },
+//   { arrayFilters: [{ "element._id": { $eq: postID } }] },
+//   function (err, result) {
+//     if (err) throw err;
+//     console.log("Updated User");
+//     // updatePost in post collection
+//     Post.updateOne(
+//       { _id: postID },
+//       {
+//         $set: {
+//           title: req.body.PostTitle,
+//           content: req.body.PostContent,
+//         },
+//       },
+//       function (err, result) {
+//         if (err) throw err;
+//         console.log("Updated post");
+//       }
+//     );
+//   }
+// );
+// }
 
 // deleteComment
 function deleteComment(req, res) {
@@ -302,5 +322,5 @@ module.exports = {
   getUserByPost,
   getAllPostsByUser,
   updatePost,
-  addLike
+  addLike,
 };

@@ -42,8 +42,9 @@ function Login() {
       Axios.post("http://localhost:5000/login", data).then(
         (response) => {
           const id = response.data.token;
-          setSession({ userName, id });
-          setSessionCookie({ userName, id });
+          const name = response.data.firstName + " " + response.data.lastName;
+          setSession({ userName, id, name });
+          setSessionCookie({ userName, id, name });
 
           console.log("Response");
           console.log(response);
