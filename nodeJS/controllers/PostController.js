@@ -9,7 +9,7 @@ function addLike(req, res) {
     console.log("addLike function called");
     var postID = new mongo.ObjectID(req.body.postID);
     // GET USER ID
-    var userID = ssn.email;
+    var userID = new mongo.ObjectID(req.body.userID);
 
     // Determined whether to increase or decrease
     var increase = true;
@@ -89,11 +89,10 @@ function addPost(req, res) {
     newPost.save();
     console.log("post saved to Post");
 
-    // Add post to User model
-    docs[0].posts.push(newPost);
+    // Add postID to User model
+    docs[0].posts.push(newPost._id);
     docs[0].save();
     console.log("post added to User.posts");
-    res.render("post", { currentUser: docs[0] });
   });
 }
 
@@ -131,21 +130,7 @@ function addComment(req, res) {
         { $inc: { commentsNum: 1 } },
         function (err, result) {
           if (err) throw err;
-          // Adding the comment object to the posts array in users
-          User.update(
-            { email: ssn.email },
-            { $pull: { posts: { _id: currentPostID } } },
-            function (err, result) {
-              if (err) throw err;
-              docs[0].posts.push(docs1[0]);
-              docs[0].save();
-              User.find({ email: ssn.email }, function (err, docs) {
-                console.log("Add comment redirecting...");
-                console.log(docs);
-                res.render("post", { currentUser: docs[0] });
-              });
-            }
-          );
+          console.log("Comment added successfully");
         }
       );
     });
@@ -170,8 +155,13 @@ function getAllPostsByUser(req, res) {
   console.log("getAllPostsByUser function called");
   User.find({ _id: userID }, function (err, docs) {
     var postArray = docs[0].posts;
-    console.log("post by user"+postArray);
-    res.json(postArray);
+    Post.find({
+        '_id': { $in: postArray}
+    }, function(err, docs){
+         console.log(docs);
+         console.log("post by user"+postArray);
+         res.json(docs);
+    });
   });
 }
 
@@ -216,9 +206,10 @@ function deletePost(req, res) {
   // Deleting entry in user collection
   User.updateMany(
     { email: ssn.email },
-    { $pull: { posts: { _id: postID } } },
+    { $pull: { posts: postID } },
     function (err, result) {
       if (err) throw err;
+      // Deleting entry in Post collection
       Post.deleteOne({ _id: postID }, function (err, result) {
         if (err) throw err;
         User.find({ email: ssn.email }, function (err, docs) {
@@ -226,7 +217,6 @@ function deletePost(req, res) {
           Comment.deleteMany({ postID: postID }, function (err) {
             if (err) throw err;
             console.log("All related comments removed");
-            res.render("post", { currentUser: docs[0] });
           });
         });
       });
@@ -294,17 +284,9 @@ function deleteComment(req, res) {
        Comment.deleteOne({ _id: commentID }, function (err, result) {
          if (err) throw err;
          console.log("Comment in Comment collection deleted");
-         User.find({ _id: userID }, function (err, docs) {
-           // Delete all the comments replying to the post
-           docs[0].posts
-             res.render("post", { currentUser: docs[0] });
-           });
          });
        });
      }
-   );
- }
-
 
 // getPostLikeNumber
 
