@@ -12,7 +12,8 @@ const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const AuthContoller = require("./controllers/AuthController");
 const PostController = require("./controllers/PostController");
-const UserController=require("./controllers/UserController");
+const UserController = require("./controllers/UserController");
+const CommentController = require("./controllers/CommentController");
 const app = express();
 const passport = require("passport");
 var cors = require("cors");
@@ -98,7 +99,7 @@ app.use("/register", AuthContoller.register);
 app.use("/login", AuthContoller.login);
 app.use("/addPost", PostController.addPost);
 app.use("/deletePost", PostController.deletePost);
-app.use("/addComment", PostController.addComment);
+app.use("/addComment", CommentController.addComment);
 
 app.use("/getAllPosts", PostController.getAllPosts);
 app.use("/getPostByID/:id", PostController.getPostByID);

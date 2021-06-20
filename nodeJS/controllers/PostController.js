@@ -149,7 +149,9 @@ function getUserByPost(req, res) {
 
   // ?? Unused variable?
   var postID = new mongo.ObjectID(req.params.id);
+  console.log(postID);
   Post.find({ _id: req.params.id }, function (err, docs) {
+    console.log(docs)
     var userID = new mongo.ObjectID(docs[0].userID);
     User.find({ _id: userID }, function (err, docs) {
       var user = docs[0];
