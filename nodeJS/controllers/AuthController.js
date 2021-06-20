@@ -27,8 +27,9 @@ async function register(req, res) {
       // Validating user
       User.find({ email: newUser.email }, function (err, docs) {
         if (err) {
-        console.log("User Validation failed")
-        console.log(err)}
+          console.log("User Validation failed");
+          console.log(err);
+        }
         if (docs.length == 0) {
           newUser.save();
           console.log("User saved");
@@ -66,6 +67,8 @@ function login(req, res) {
           // res.render("post", { currentUser: docs[0], User: User });
           res.send({
             token: docs[0]._id,
+            firstName: docs[0].firstName,
+            lastName: docs[0].lastName,
           });
           console.log("password correct");
         } else {
