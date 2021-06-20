@@ -63,13 +63,11 @@ export default function MediaCard() {
   function deletePost(event) {
     console.log("Deleting Post...");
 
-    let response = {
+    Axios.delete("http://localhost:5000/deletePost", {
       data: {
         postID: id,
       },
-    };
-
-    Axios.delete("http://localhost:5000/deletePost", response).then(
+    }).then(
       (response) => {
         console.log("Post Deleted");
         history.push("/");

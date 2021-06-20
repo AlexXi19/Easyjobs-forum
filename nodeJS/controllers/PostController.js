@@ -6,10 +6,10 @@ var mongo = require("mongodb");
 
 // addLike
 function addLike(req, res) {
-    console.log("addLike function called");
-    var postID = new mongo.ObjectID(req.body.postID);
-    // GET USER ID
-    var userID = new mongo.ObjectID(req.body.userID);
+  console.log("addLike function called");
+  var postID = new mongo.ObjectID(req.body.postID);
+  // GET USER ID
+  var userID = new mongo.ObjectID(req.body.userID);
 
   // Determined whether to increase or decrease
   var increase = true;
@@ -100,7 +100,6 @@ function addPost(req, res) {
   });
 }
 
-
 // getAllPosts
 function getAllPosts(req, res) {
   console.log("getAllPosts function called");
@@ -119,13 +118,16 @@ function getAllPostsByUser(req, res) {
   console.log("getAllPostsByUser function called");
   User.find({ _id: userID }, function (err, docs) {
     var postArray = docs[0].posts;
-    Post.find({
-        '_id': { $in: postArray}
-    }, function(err, docs){
-         console.log(docs);
-         console.log("post by user"+postArray);
-         res.json(docs);
-    });
+    Post.find(
+      {
+        _id: { $in: postArray },
+      },
+      function (err, docs) {
+        console.log(docs);
+        console.log("post by user" + postArray);
+        res.json(docs);
+      }
+    );
   });
 }
 
@@ -151,7 +153,7 @@ function getUserByPost(req, res) {
   var postID = new mongo.ObjectID(req.params.id);
   console.log(postID);
   Post.find({ _id: req.params.id }, function (err, docs) {
-    console.log(docs)
+    console.log(docs);
     var userID = new mongo.ObjectID(docs[0].userID);
     User.find({ _id: userID }, function (err, docs) {
       var user = docs[0];
@@ -181,8 +183,8 @@ function deletePost(req, res) {
           // Delete all the comments replying to the post
           Comment.deleteMany({ postID: postID }, function (err) {
             if (err) throw err;
-            res.render("post", { currentUser: docs[0] });
             console.log("All related comments removed");
+            res.end();
           });
         });
       });
@@ -246,9 +248,7 @@ function updatePost(req, res) {
 // );
 // }
 
-
 // getPostLikeNumber
-
 
 module.exports = {
   // all functions
