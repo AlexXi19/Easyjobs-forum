@@ -181,6 +181,7 @@ function deletePost(req, res) {
           // Delete all the comments replying to the post
           Comment.deleteMany({ postID: postID }, function (err) {
             if (err) throw err;
+            res.render("post", { currentUser: docs[0] });
             console.log("All related comments removed");
           });
         });
