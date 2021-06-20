@@ -2,7 +2,7 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
 const PostController = require('./PostController');
-
+var mongo = require("mongodb");
 
 // addComment
 function addComment(req, res) {
@@ -48,8 +48,27 @@ function addComment(req, res) {
 }
 
 // getAllComments
+function getAllComments(req, res) {
+  console.log("getAllComments function called");
+  Comment.find({}, function (err, docs) {
+    var commentArray = docs;
+    console.log("Sending Comments");
+    console.log(docs);
+    res.json(commentArray);
+  });
+}
 
 // getCommentForPost
+function getCommentForPost(req, res) {
+    // Currently only works for the first layer
+    console.log("getCommentForPost function called");
+    var postID = new mongo.ObjectID(req.params.postID);
+    console.log("Finding All Comments with Post" + postID);
+    Comments.find({ postID: postID }, function (err, docs) {
+        console.log(docs);
+        res.json(docs);
+    });
+ }
 
 // deleteComment
 function deleteComment(req, res) {
