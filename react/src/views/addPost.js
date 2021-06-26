@@ -1,7 +1,11 @@
 import React from 'react';
 import AddPost from './../components/PostForm';
-
+import { makeStyles } from "@material-ui/core/styles";
 
 export default function add(){
-  return  <AddPost />;
+
+  return ( 
+  <div className="marginTop">
+  <AddPost />
+  </div>)
 }

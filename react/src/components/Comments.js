@@ -77,17 +77,18 @@ class Comments extends Component {
           </h1>
         </header>
         <div className="row">
-          <div className="col-4  pt-3 border-right">
+          <div style={{width:"80%"}}>
             <CommentForm_Hooks addComment={this.addComment} />
             {/* <CommentForm addComment={this.addComment} /> */}
           </div>
-          <div className="col-8  pt-3 bg-white">
+          
+        </div>
+        <div className="pt-3 bg-white">
             <CommentList
               addReply={this.addReply}
               comments={this.state.comments}
             />
           </div>
-        </div>
       </div>
     );
   }

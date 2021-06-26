@@ -76,15 +76,16 @@ function CommentForm_Hooks(props) {
 
   return (
     <div>
-      <Form method="post" onSubmit={onSubmit}>
+      <Form method="post" onSubmit={onSubmit} style={{width:"100%"}}>
         <Avatar
-          src="https://picsum.photos/700"
+          src="https://picsum.photos/200"
           aria-label="recipe"
           className="avatar"
+          style={{marginRight:"2%"}}
         >
           R
         </Avatar>
-        <Comment.Author className="commentName" as="a">
+        <Comment.Author style={{marginBottom:"30%",marginLeft:'0%'}} className="commentName" as="a">
           {session.name}
         </Comment.Author>
         <Form.TextArea

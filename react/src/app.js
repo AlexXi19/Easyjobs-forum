@@ -29,8 +29,8 @@ export default function App() {
   return (
     <SessionContext.Provider value={{ session, setSession }}>
       <div className="wrapper">
-        <h1>Easyjobs</h1>
-        <Nav />
+        <h1></h1>
+        <Nav className="appBar"/>
         <Router>
           {/* <Link to="/">Home</Link>
          <Link to="/Posts">Posts</Link>

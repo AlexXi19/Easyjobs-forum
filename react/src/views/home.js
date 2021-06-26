@@ -7,7 +7,7 @@ import { red } from "@material-ui/core/colors";
 function Home(){
   const useStyles = makeStyles((theme) => ({
     root: {
-     
+     marginTop:"4%",
     },
   }));
   const classes=useStyles();
@@ -18,7 +18,7 @@ function Home(){
    <Grid.Column width={3}>
   
    </Grid.Column>
-   <Grid.Column width={9}>
+   <Grid.Column  width={9}>
   <PostOverview userID={0}/>
   </Grid.Column>
   <Grid.Column width={4}>

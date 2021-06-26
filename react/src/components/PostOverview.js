@@ -56,6 +56,7 @@ export default function RecipeReviewCard(props) {
 
   return (
     <div>
+    <Card style={{padding:"3%",height:"100%",}}>
       {posts.map((post) => (
         <PostEntry
           key={post._id}
@@ -68,6 +69,8 @@ export default function RecipeReviewCard(props) {
           //name={post.name}
         />
       ))}
+      </Card>
     </div>
+    
   );
 }

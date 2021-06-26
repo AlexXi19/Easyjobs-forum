@@ -1,18 +1,25 @@
 .App {
-  font-family: sans-serif;
+  
   text-align: center;
+
+  
+}
+
+.newFont{
+  font-family: 'Merriweather', serif;
 }
 Form {
   text-align: left;
   margin: 3%;
 }
 .wrapper {
+  font-family: 'Montserrat', sans-serif;
   min-height: 100%;
   left: 0;
   width: 100%;
   overflow: hidden;
-  background-color: #00565c;
-  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png");
+  background-color: #48aac2;
+background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
 }
 .comment {
   text-align: left;
@@ -35,14 +42,23 @@ Form {
 }
 .navbrand {
   padding: 2%;
+  color:black;
+  margin-left:3%;
 }
 .navbar {
-  max-height: 80px;
+  max-height: 70px;
+  
   color: #fff;
+  background-color: #bcd2d4;
+background-image: url("https://www.transparenttextures.com/patterns/beige-paper.png");
 }
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.marginTop{
+  margin-top: 4%;
 }

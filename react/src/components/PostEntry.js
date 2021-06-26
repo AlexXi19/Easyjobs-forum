@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles,createMuiTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -21,11 +21,19 @@ import { cardTitle } from "../assets/jss/material-kit-react";
 import CommentIcon from "@material-ui/icons/Comment";
 import Axios from "axios";
 import LikeButton from "./atoms/LikeButton";
+import { TextArea } from "semantic-ui-react";
 
+const theme= createMuiTheme({
+  typography:{
+    fontFamily:'Big Shoulders Stencil Display'
+  }
+})
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxwidth: 400,
+    maxwidth: 300,
     margin: "1%",
+    textDecoration:'none',
+    textAlign:"left",
   },
 
   media: {
@@ -46,7 +54,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   content: {
-    padding: "0% 3%",
+    padding: "0% 1%" ,
+    color:"#292827",
+    
+  },
+  hoverlink:{
+backgroundColor:"#e9f2f1"
   },
   small: {
     width: theme.spacing(3),
@@ -55,10 +68,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RecipeReviewCard(props) {
+  const [hoverState,setHover]=useState(false);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [user, setUser] = useState({});
 
+  function toggle(){
+    setHover(!hoverState);
+  }
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -77,24 +94,25 @@ export default function RecipeReviewCard(props) {
       }
     );
   }, []);
-
+console.log(hoverState);
   return (
     <div>
       <Card className={classes.root}>
-        <Link to={"/Posts/" + props.id}>
-          <CardActionArea>
+        <Link to={"/Posts/" + props.id} style={{textDecoration:'none'}} >
+          <CardActionArea className={classes.link} onMouseEnter={toggle} className={hoverState?classes.hoverlink:classes.link} onMouseLeave={toggle}>
             <CardHeader
               avatar={
                 <Avatar aria-label="recipe" className={classes.small}>
                   {props.icon}
                 </Avatar>
               }
+              style={{color:"#524f4f",paddingBottom:"0.5%",paddingTop:"0.5%"}}
               titleTypographyProps={{ variant: "subtitle2" }}
               title={user.firstName + " " + user.lastName}
               subheader={props.date}
             />
             <CardContent className={classes.content}>
-              <Typography gutterBottom variant="h5" component="h3">
+              <Typography className="newFont" align="left" gutterBottom variant="h6" component="h4">
                 {props.title}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">

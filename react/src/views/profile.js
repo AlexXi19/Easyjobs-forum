@@ -8,7 +8,7 @@ import ProfileIntro from "./../components/ProfileIntro";
 function Profile(){
     const { id } = useParams();
     return(
-        <div>
+        <div className="marginTop">
    <Grid>
    <Grid.Column width={3}>
         <ProfileIntro/>
