@@ -1,6 +1,6 @@
 import React from "react";
 import PostDetail from "./../components/PostDetail.js"
-import Comments from "../components/Comments.js"
+import Comments from "../components/Comments_hook.js"
 import {Grid,Image} from 'semantic-ui-react'
 
 function Post(){
@@ -12,7 +12,7 @@ function Post(){
  </Grid.Column>
  <Grid.Column width={9}>
 <PostDetail/>
-<Comments />
+<Comments  />
 </Grid.Column>
 <Grid.Column width={4}>
 

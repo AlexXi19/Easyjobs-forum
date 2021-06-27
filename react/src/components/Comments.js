@@ -4,6 +4,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
 import CommentForm_Hooks from "./CommentForm_hook";
+import Axios from "axios";
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 class Comments extends Component {
   constructor(props) {
     super(props);
+   
     this.state = {
       comments: [
         {
@@ -65,6 +68,21 @@ class Comments extends Component {
   addReply(reply) {
     console.log(reply);
   }
+  
+componentDidMount(){
+  console.log(this.props.match.params);
+  // const { id } = this.props.match.params;
+  //     Axios.get("http://localhost:5000/getCommentForPost/" + id).then(
+  //       (response) => {
+  //         this.setState({comments:[response.data]});
+  //       },
+  //       (error) => {
+  //         console.log("Could not get posts");
+  //         console.log(error);
+  //       }
+  //     );
+      }
+  
 
   render() {
     const loadingSpin = this.state.loading ? "App-logo Spin" : "App-logo";

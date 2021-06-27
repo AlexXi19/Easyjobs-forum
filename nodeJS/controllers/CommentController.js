@@ -105,6 +105,7 @@ function deleteComment(req, res) {
 
 module.exports = {
     // all functions
+    getCommentForPost,
     addComment,
     deleteComment
 };
