@@ -108,6 +108,7 @@ app.use('/getNamebyID/:id',UserController.getNamebyID);
 app.use('/getAllPostsByUser/:id',PostController.getAllPostsByUser);
 app.use("/updatePost", PostController.updatePost);
 app.use("/addLike", PostController.addLike);
+app.use("/getCommentForPost/:id",CommentController.getCommentForPost);
 
 
 // app.use('/register',(req, res) => {

@@ -19,12 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Comments(props) {
 
-    const [comments, setComments] = useState([{
-        id: 0,
-        name:"对啦可是江东父老课",
-        message: "hiiii",
-         reply: []
-    }]);
+    const [comments, setComments] = useState([]);
     // this.state = {
     //   comments: [
     //     {
@@ -86,12 +81,13 @@ function addReply(reply) {
 //       }
 //     );
 const { id } = useParams();
+
 useEffect(() => {
     
     Axios.get("http://localhost:5000/getCommentForPost/" + id).then(
         (response) => {
-            console.log(response);
-            // setComments(response.data);
+            console.log(response.data);
+            setComments(response.data);
         },
         (error) => {
             console.log("Could not get posts");
@@ -99,7 +95,7 @@ useEffect(() => {
         }
     );
 }, []);
-
+console.log(comments);
 return (
     <div className="App container bg-light shadow">
         <header className="App-header">

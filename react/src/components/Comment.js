@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
 
 function Commented(props) {
+  console.log(props.comment)
   const { name, message, time } = props.comment;
   const [clicked, setClicked] = useState(false);
   const [reply, setReply] = useState([]);
@@ -65,9 +66,9 @@ function Commented(props) {
       <Comment.Content>
         <Comment.Author as="a">{name}</Comment.Author>
         <Comment.Metadata>
-          <div>{time}</div>
+          <div>{props.comment.date}</div>
         </Comment.Metadata>
-        <Comment.Text>{message}</Comment.Text>
+        <Comment.Text>{props.comment.content}</Comment.Text>
 
         <Comment.Actions>
           <Comment.Action onClick={handleClicked}>

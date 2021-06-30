@@ -19,7 +19,7 @@ export default function CommentList(props){
      Comments
    </Header> */}
       {props.comments.map((comment) => (
-        <Commented key={comment.id} addReply={props.addReply}  comment={comment} type="parent"/>
+        <Commented key={comment._id} addReply={props.addReply}  comment={comment} type="parent"/>
       ))}
 
   

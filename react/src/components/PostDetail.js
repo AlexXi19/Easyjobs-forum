@@ -12,7 +12,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Axios from "axios";
 import { SessionContext } from "./UserContext";
 import FormDialog from "./UpdatePostDialog";
-
+import Comments from "./Comments_hook.js"
 const useStyles = makeStyles({
   root: {
     alignSelf: "stretch",
@@ -33,9 +33,27 @@ export default function MediaCard() {
   const options = { year: "numeric", month: "long", day: "numeric" };
   const history = useHistory();
   const { session } = useContext(SessionContext);
-
+  const [comments, setComments] = useState([{
+    id: 0,
+    name:"对啦可是江东父老课",
+    message: "hiiii",
+     reply: []
+}]);
   useEffect(() => {
     console.log("Finding Post");
+
+    
+      // Axios.get("http://localhost:5000/getCommentForPost/" + id).then(
+      //     (response) => {
+      //         console.log(response.content);
+      //          setComments(response.content);
+      //     },
+      //     (error) => {
+      //         console.log("Could not get posts");
+      //         console.log(error);
+      //     }
+      // );
+
 
     Axios.get("http://localhost:5000/getPostById/" + id).then(
       (response) => {
@@ -81,6 +99,7 @@ export default function MediaCard() {
   console.log(session, user.email);
 
   return (
+    <div>
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
@@ -132,5 +151,7 @@ export default function MediaCard() {
         </CardActions>
       )}
     </Card>
+    
+    </div>
   );
 }

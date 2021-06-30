@@ -62,9 +62,9 @@ function getAllComments(req, res) {
 function getCommentForPost(req, res) {
     // Currently only works for the first layer
     console.log("getCommentForPost function called");
-    var postID = new mongo.ObjectID(req.params.postID);
-    console.log("Finding All Comments with Post" + postID);
-    Comments.find({ postID: postID }, function (err, docs) {
+    var postIDe = new mongo.ObjectID(req.params.id);
+    console.log("Finding All Comments with Post" + postIDe);
+    Comment.find({postID: postIDe }, function (err, docs) {
         console.log(docs);
         res.json(docs);
     });
