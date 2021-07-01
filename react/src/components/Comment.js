@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
-
+import { SessionContext } from "./UserContext";
 function Commented(props) {
   console.log(props.comment)
   const { name, message, time } = props.comment;
@@ -9,6 +9,8 @@ function Commented(props) {
   const [inputText, setInputText] = useState("");
   const [replyName, setReplyName] = useState("");
   const [id, setID] = useState(0);
+  const { session } = useContext(SessionContext);
+  console.log(session);
   //  var lastID=Math.max.apply(id.map((item)=>{
   //    return id;
   //  }));
@@ -64,9 +66,9 @@ function Commented(props) {
     <Comment className="comment">
       <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
       <Comment.Content>
-        <Comment.Author as="a">{name}</Comment.Author>
+        <Comment.Author as="a">{session.name}</Comment.Author>
         <Comment.Metadata>
-          <div>{props.comment.date}</div>
+          <div>{props.comment.date.substring(0,11)}</div>
         </Comment.Metadata>
         <Comment.Text>{props.comment.content}</Comment.Text>
 
