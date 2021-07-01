@@ -1,19 +1,31 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
-import { SessionContext } from "./UserContext";
+import Axios from "axios";
+
 function Commented(props) {
-  console.log(props.comment)
-  const { name, message, time } = props.comment;
   const [clicked, setClicked] = useState(false);
   const [reply, setReply] = useState([]);
   const [inputText, setInputText] = useState("");
   const [replyName, setReplyName] = useState("");
   const [id, setID] = useState(0);
-  const { session } = useContext(SessionContext);
-  console.log(session);
+  const [name, setName] = useState("");
   //  var lastID=Math.max.apply(id.map((item)=>{
   //    return id;
   //  }));
+  useEffect(() => {
+    console.log("Finding User's name");
+
+    Axios.get("http://localhost:5000/getNamebyID/" + props.comment.userID).then(
+      (response) => {
+        setName(response.data);
+        console.log(response.data);
+      },
+      (error) => {
+        console.log("Could not get user name");
+        console.log(error);
+      }
+    );
+  }, []);
 
   function uniqueID() {
     return Math.floor(Math.random() * Date.now());
@@ -66,9 +78,9 @@ function Commented(props) {
     <Comment className="comment">
       <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
       <Comment.Content>
-        <Comment.Author as="a">{session.name}</Comment.Author>
+        <Comment.Author as="a">{name}</Comment.Author>
         <Comment.Metadata>
-          <div>{props.comment.date.substring(0,11)}</div>
+          <div>{props.comment.date.substring(0, 11)}</div>
         </Comment.Metadata>
         <Comment.Text>{props.comment.content}</Comment.Text>
 

@@ -44,23 +44,24 @@ function CommentForm_Hooks(props) {
     Axios.post("http://localhost:5000/addComment", data).then(
       (response) => {
         console.log("Added Comment");
-        console.log(response);
+        console.log(response.data);
+        props.addComment(response.data);
       },
       (error) => {
         console.log(error);
       }
     );
 
-    // The section below only updates front end.
-    const commentToAdd = {
-      id: 0,
-      message: comment.message,
-      name: session.name,
-      reply: [],
-    };
+    // // The section below only updates front end.
+    // const commentToAdd = {
+    //   id: 0,
+    //   message: comment.message,
+    //   name: session.name,
+    //   reply: [],
+    // };
 
-    console.log(commentToAdd);
-    props.addComment(commentToAdd);
+    // console.log(commentToAdd);
+    // props.addComment(commentToAdd);
     // setComment({ ...comment, message: "", reply: "" });
 
     setComment({ message: "" });
@@ -76,16 +77,20 @@ function CommentForm_Hooks(props) {
 
   return (
     <div>
-      <Form method="post" onSubmit={onSubmit} style={{width:"100%"}}>
+      <Form method="post" onSubmit={onSubmit} style={{ width: "100%" }}>
         <Avatar
           src="https://picsum.photos/200"
           aria-label="recipe"
           className="avatar"
-          style={{marginRight:"2%"}}
+          style={{ marginRight: "2%" }}
         >
           R
         </Avatar>
-        <Comment.Author style={{marginBottom:"30%",marginLeft:'0%'}} className="commentName" as="a">
+        <Comment.Author
+          style={{ marginBottom: "30%", marginLeft: "0%" }}
+          className="commentName"
+          as="a"
+        >
           {session.name}
         </Comment.Author>
         <Form.TextArea

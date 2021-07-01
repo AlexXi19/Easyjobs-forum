@@ -1,6 +1,5 @@
-const Post = require("../models/Post");
 const User = require("../models/User");
-const bcrypt = require("bcryptjs");
+var mongo = require("mongodb");
 
 // addPostToUser
 
@@ -8,13 +7,15 @@ const bcrypt = require("bcryptjs");
 
 // name of user who is logged in is stored in frontend session cookies.
 function getNamebyID(req, res) {
-  console.log("why cannot" + req.params.id);
-  User.find({ _id: req.params.id }, function (err, docs) {
+  var userID = new mongo.ObjectID(req.params.id);
+  console.log("Sending User's name for id:  " + userID);
+  User.find({ _id: userID }, function (err, docs) {
     if (err) {
       console.log(err);
     } else {
-      console.log("name " + docs[0]);
-      res.json(docs[0]);
+      var name = docs[0].firstName + " " + docs[0].lastName;
+      console.log("name " + name);
+      res.send(name);
     }
   });
 }
