@@ -44,7 +44,11 @@ function CommentForm_Hooks(props) {
     Axios.post("http://localhost:5000/addComment", data).then(
       (response) => {
         console.log("Added Comment");
+<<<<<<< HEAD
         console.log(response.data);
+=======
+        console.log(response);
+>>>>>>> 6aa1bb5d221866efbf932ec9533a725c030acc13
         props.addComment(response.data);
       },
       (error) => {
@@ -60,8 +64,13 @@ function CommentForm_Hooks(props) {
     //   reply: [],
     // };
 
+<<<<<<< HEAD
     // console.log(commentToAdd);
     // props.addComment(commentToAdd);
+=======
+    console.log(commentToAdd);
+    
+>>>>>>> 6aa1bb5d221866efbf932ec9533a725c030acc13
     // setComment({ ...comment, message: "", reply: "" });
 
     setComment({ message: "" });
