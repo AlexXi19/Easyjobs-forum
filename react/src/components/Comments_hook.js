@@ -7,6 +7,7 @@ import CommentForm_Hooks from "./CommentForm_hook";
 import Axios from "axios";
 import { withRouter } from "react-router";
 import { useParams } from "react-router-dom";
+import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ function Comments(props) {
   }, []);
   console.log(comments);
   return (
-    <div className="App container bg-light shadow">
+    <Card className="App bg-light shadow">
       <header className="App-header">
         <h1 className="App-title">
           评论
@@ -51,7 +52,7 @@ function Comments(props) {
         </h1>
       </header>
       <div className="row">
-        <div style={{ width: "80%" }}>
+        <div className="container" style={{ width: "80%" }}>
           <CommentForm_Hooks addComment={addComment} />
           {/* <CommentForm addComment={this.addComment} /> */}
         </div>
@@ -59,7 +60,7 @@ function Comments(props) {
       <div className="pt-3 bg-white">
         <CommentList addReply={addReply} comments={comments} />
       </div>
-    </div>
+    </Card>
   );
 }
 

@@ -6,12 +6,12 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Axios from "axios";
 import { SessionContext } from "./UserContext";
 import Button from "@material-ui/core/Button";
+import returnDateString from "./utilities/UtilityFunctions";
 
 function PostForm(props) {
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState(false);
   const date = new Date();
-  const options = { year: "numeric", month: "long", day: "numeric" };
   const { session } = useContext(SessionContext);
 
   const [post, setPost] = useState({
@@ -83,7 +83,7 @@ function PostForm(props) {
                 titleTypographyProps={{ variant: "subtitle2" }}
                 // title={props.name}
                 title={session.userName} //"作者"
-                subheader={date.toLocaleDateString(undefined, options)}
+                subheader={returnDateString(date)}
               />
               {submitted && (
                 <Message success>

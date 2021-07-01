@@ -12,7 +12,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Axios from "axios";
 import { SessionContext } from "./UserContext";
 import FormDialog from "./UpdatePostDialog";
-import Comments from "./Comments_hook.js"
+import returnDateString from "./utilities/UtilityFunctions";
+import Comments from "./Comments_hook.js";
 const useStyles = makeStyles({
   root: {
     alignSelf: "stretch",
@@ -30,30 +31,18 @@ export default function MediaCard() {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [user, setUser] = useState({});
-  const options = { year: "numeric", month: "long", day: "numeric" };
   const history = useHistory();
   const { session } = useContext(SessionContext);
-  const [comments, setComments] = useState([{
-    id: 0,
-    name:"对啦可是江东父老课",
-    message: "hiiii",
-     reply: []
-}]);
+  const [comments, setComments] = useState([
+    {
+      id: 0,
+      name: "对啦可是江东父老课",
+      message: "hiiii",
+      reply: [],
+    },
+  ]);
   useEffect(() => {
     console.log("Finding Post");
-
-    
-      // Axios.get("http://localhost:5000/getCommentForPost/" + id).then(
-      //     (response) => {
-      //         console.log(response.content);
-      //          setComments(response.content);
-      //     },
-      //     (error) => {
-      //         console.log("Could not get posts");
-      //         console.log(error);
-      //     }
-      // );
-
 
     Axios.get("http://localhost:5000/getPostById/" + id).then(
       (response) => {
@@ -100,58 +89,57 @@ export default function MediaCard() {
 
   return (
     <div>
-    <Card className={classes.root}>
-      <CardMedia
-        className={classes.media}
-        image="https://picsum.photos/700/700"
-        title="Contemplative Reptile"
-      />
-
-      <CardContent className={classes.content}>
-        <Typography gutterBottom variant="h3" component="h2">
-          {post.title}
-        </Typography>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {/* {post.icon} */}
-            </Avatar>
-          }
-          titleTypographyProps={{ variant: "subtitle2" }}
-          title={user.firstName + " " + user.lastName}
-          subheader={new Date(post.date).toLocaleDateString(undefined, options)}
-          className={classes.author}
+      <Card className={classes.root}>
+        <CardMedia
+          className={classes.media}
+          image="https://picsum.photos/700/700"
+          title="Contemplative Reptile"
         />
-        <Typography variant="body1" color="textPrimary" component="p">
-          {post.content}
-        </Typography>
-      </CardContent>
 
-      {session.userName === user.email ? (
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-          <FormDialog title={post.title} content={post.content} id={id} />
-          <Button size="small" color="secondary" onClick={deletePost}>
-            Delete Post
-          </Button>
-        </CardActions>
-      ) : (
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
-      )}
-    </Card>
-    
+        <CardContent className={classes.content}>
+          <Typography gutterBottom variant="h3" component="h2">
+            {post.title}
+          </Typography>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="recipe" className={classes.avatar}>
+                {/* {post.icon} */}
+              </Avatar>
+            }
+            titleTypographyProps={{ variant: "subtitle2" }}
+            title={user.firstName + " " + user.lastName}
+            subheader={returnDateString(post.date)}
+            className={classes.author}
+          />
+          <Typography variant="body1" color="textPrimary" component="p">
+            {post.content}
+          </Typography>
+        </CardContent>
+
+        {session.userName === user.email ? (
+          <CardActions>
+            <Button size="small" color="primary">
+              Share
+            </Button>
+            <Button size="small" color="primary">
+              Learn More
+            </Button>
+            <FormDialog title={post.title} content={post.content} id={id} />
+            <Button size="small" color="secondary" onClick={deletePost}>
+              Delete Post
+            </Button>
+          </CardActions>
+        ) : (
+          <CardActions>
+            <Button size="small" color="primary">
+              Share
+            </Button>
+            <Button size="small" color="primary">
+              Learn More
+            </Button>
+          </CardActions>
+        )}
+      </Card>
     </div>
   );
 }

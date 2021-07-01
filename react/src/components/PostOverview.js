@@ -21,13 +21,13 @@ import CommentIcon from "@material-ui/icons/Comment";
 import Link from "@material-ui/core/Link";
 import PostEntry from "./PostEntry.js";
 import Axios from "axios";
+import returnDateString from "./utilities/UtilityFunctions";
 
 export default function RecipeReviewCard(props) {
   console.log("IDDDDD is " + props.userID);
   console.log("Getting All Posts");
 
   const [posts, setPosts] = useState([]);
-  const options = { year: "numeric", month: "long", day: "numeric" };
   const [identity, setID] = useState(props.id);
 
   useEffect(() => {
@@ -56,21 +56,20 @@ export default function RecipeReviewCard(props) {
 
   return (
     <div>
-    <Card style={{padding:"3%",height:"100%",}}>
-      {posts.map((post) => (
-        <PostEntry
-          key={post._id}
-          id={post._id}
-          //icon={post.icon}
-          icon="🤣"
-          content={post.content.substring(0, 250) + "......"}
-          title={post.title}
-          date={new Date(post.date).toLocaleDateString(undefined, options)}
-          //name={post.name}
-        />
-      ))}
+      <Card style={{ padding: "3%", height: "100%" }}>
+        {posts.map((post) => (
+          <PostEntry
+            key={post._id}
+            id={post._id}
+            //icon={post.icon}
+            icon="🤣"
+            content={post.content.substring(0, 250) + "......"}
+            title={post.title}
+            date={returnDateString(post.date)}
+            //name={post.name}
+          />
+        ))}
       </Card>
     </div>
-    
   );
 }

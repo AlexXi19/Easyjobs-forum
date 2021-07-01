@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Commented from "./Comment";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
+import Axios from "axios";
 
 export default function CommentList(props) {
   return (

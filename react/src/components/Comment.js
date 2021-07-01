@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
+import returnDateString from "./utilities/UtilityFunctions";
 import Axios from "axios";
 
 function Commented(props) {
@@ -12,6 +13,7 @@ function Commented(props) {
   //  var lastID=Math.max.apply(id.map((item)=>{
   //    return id;
   //  }));
+  console.log(props.name);
   useEffect(() => {
     console.log("Finding User's name");
 
@@ -80,7 +82,8 @@ function Commented(props) {
       <Comment.Content>
         <Comment.Author as="a">{name}</Comment.Author>
         <Comment.Metadata>
-          <div>{props.comment.date.substring(0, 11)}</div>
+          {returnDateString(props.comment.date)}
+          {/* <div>{props.comment.date.substring(0, 11)}</div> */}
         </Comment.Metadata>
         <Comment.Text>{props.comment.content}</Comment.Text>
 

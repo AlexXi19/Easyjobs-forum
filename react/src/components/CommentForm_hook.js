@@ -65,7 +65,7 @@ function CommentForm_Hooks(props) {
 
   return (
     <div>
-      <Form method="post" onSubmit={onSubmit} style={{ width: "100%" }}>
+      <Form method="post" onSubmit={onSubmit} style={{ width: "90%" }}>
         <Avatar
           src="https://picsum.photos/200"
           aria-label="recipe"
@@ -81,6 +81,7 @@ function CommentForm_Hooks(props) {
         >
           {session.name}
         </Comment.Author>
+
         <Form.TextArea
           onChange={handleFieldChange}
           value={comment.message}
