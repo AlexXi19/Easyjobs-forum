@@ -61,9 +61,9 @@ function Comments(props) {
 // }
 
 function addComment(comment) {
-    setComments({
-        comments: [comment, ...comments],
-    });
+    setComments(
+ [...comments, comment]
+    );
 }
 function addReply(reply) {
     console.log(reply);

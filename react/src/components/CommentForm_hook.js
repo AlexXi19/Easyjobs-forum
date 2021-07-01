@@ -45,6 +45,7 @@ function CommentForm_Hooks(props) {
       (response) => {
         console.log("Added Comment");
         console.log(response);
+        props.addComment(response.data);
       },
       (error) => {
         console.log(error);
@@ -60,7 +61,7 @@ function CommentForm_Hooks(props) {
     };
 
     console.log(commentToAdd);
-    props.addComment(commentToAdd);
+    
     // setComment({ ...comment, message: "", reply: "" });
 
     setComment({ message: "" });
