@@ -1,7 +1,7 @@
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
-const User = require('../models/User');
-const PostController = require('./PostController');
+const Post = require("../models/Post");
+const Comment = require("../models/Comment");
+const User = require("../models/User");
+const PostController = require("./PostController");
 var mongo = require("mongodb");
 
 // addComment
@@ -41,6 +41,7 @@ function addComment(req, res) {
         function (err, result) {
           if (err) throw err;
           console.log("Comment added successfully");
+          res.json(newComment);
         }
       );
     });
@@ -60,38 +61,39 @@ function getAllComments(req, res) {
 
 // getCommentForPost
 function getCommentForPost(req, res) {
-    // Currently only works for the first layer
-    console.log("getCommentForPost function called");
-    var postIDe = new mongo.ObjectID(req.params.id);
-    console.log("Finding All Comments with Post" + postIDe);
-    Comment.find({postID: postIDe }, function (err, docs) {
-        console.log(docs);
-        res.json(docs);
-    });
- }
+  // Currently only works for the first layer
+  console.log("getCommentForPost function called");
+  var postIDe = new mongo.ObjectID(req.params.id);
+  console.log("Finding All Comments with Post" + postIDe);
+  Comment.find({ postID: postIDe }, function (err, docs) {
+    console.log(docs);
+    res.json(docs);
+  });
+}
 
 // deleteComment
 function deleteComment(req, res) {
-   console.log("deleteComment function called");
-   var commentID = new mongo.ObjectID(req.body.commentID);
-   var postID = new mongo.ObjectID(req.body.postID);
-   var userID = new mongo.ObjectID(req.body.userID);
-   console.log("Deleting Comment...");
-   console.log(commentID);
-   // Deleting entry in Post collection
-   Post.updateMany(
-     { _id: postID },
-     { $pull: { comments: { _id: commentID } } },
-     function (err, result) {
-       if (err) throw err;
-       // Deleting entry in Comment collection
-       console.log("Comment in Post collection deleted");
-       Comment.deleteOne({ _id: commentID }, function (err, result) {
-         if (err) throw err;
-         console.log("Comment in Comment collection deleted");
-         });
-       });
-     }
+  console.log("deleteComment function called");
+  var commentID = new mongo.ObjectID(req.body.commentID);
+  var postID = new mongo.ObjectID(req.body.postID);
+  var userID = new mongo.ObjectID(req.body.userID);
+  console.log("Deleting Comment...");
+  console.log(commentID);
+  // Deleting entry in Post collection
+  Post.updateMany(
+    { _id: postID },
+    { $pull: { comments: { _id: commentID } } },
+    function (err, result) {
+      if (err) throw err;
+      // Deleting entry in Comment collection
+      console.log("Comment in Post collection deleted");
+      Comment.deleteOne({ _id: commentID }, function (err, result) {
+        if (err) throw err;
+        console.log("Comment in Comment collection deleted");
+      });
+    }
+  );
+}
 
 // updateComment
 
@@ -104,8 +106,8 @@ function deleteComment(req, res) {
 // getCommentNumber
 
 module.exports = {
-    // all functions
-    getCommentForPost,
-    addComment,
-    deleteComment
+  // all functions
+  getCommentForPost,
+  addComment,
+  deleteComment,
 };
